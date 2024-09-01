@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tiempo', function (Blueprint $table) {
+        Schema::create('places', function (Blueprint $table) {
             $table->id();
-            $table->integer('año');
-            $table->smallInteger('mes');
-            $table->smallInteger('dia');
-            $table->smallInteger('hora');
-            $table->timestamp("momento_captura");
+            $table->string('maps_link');
+            $table->double('latitude');
+            $table->double('longitude');
+            $table->string('place_name');
         });
     }
 
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tiempo');
+        Schema::dropIfExists('places');
     }
 };

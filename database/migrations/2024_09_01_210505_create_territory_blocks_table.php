@@ -11,16 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lugar_bloque_territorial', function (Blueprint $table) {
+        Schema::create('territory_blocks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('lugar_id')
+            $table->string('block_name');
+            $table->foreignId('upper_block_id')
                 ->references('id')
-                ->on('lugar')
+                ->on('territory_blocks')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-            $table->foreignId('bloque_territorial_id')
+            $table->foreignId('country_id')
                 ->references('id')
-                ->on('bloque_territorial')
+                ->on('countries')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lugar_bloque_territorial');
+        Schema::dropIfExists('territory_blocks');
     }
 };

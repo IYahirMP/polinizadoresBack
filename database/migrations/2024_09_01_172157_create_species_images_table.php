@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('especie_imagen', function (Blueprint $table) {
+        Schema::create('species_images', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('especie_id')
-                ->constrained('especie')
+            $table->foreignId('species_id')
+                ->references('id')
+                ->on('species')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreignId('imagen_id')
-                ->constrained('imagen')
+            $table->foreignId('image_id')
+                ->references('id')
+                ->on('images')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
         });
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('especie_imagen');
+        Schema::dropIfExists('species_images');
     }
 };

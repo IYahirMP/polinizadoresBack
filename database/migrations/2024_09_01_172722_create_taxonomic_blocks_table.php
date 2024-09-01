@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bloque_taxonomico', function (Blueprint $table) {
+        Schema::create('taxonomic_blocks', function (Blueprint $table) {
             $table->id();
-            $table->text('tipo_bloque');
-            $table->text('nombre_bloque');
-            $table->text('descripcion_bloque');
-            $table->foreignId('id_bloque_superior')
+            $table->text('block_type');
+            $table->text('block_name');
+            $table->text('block_description');
+            $table->foreignId('upper_block_id')
                 ->nullable()
                 ->references('id')
-                ->on('bloque_taxonomico')
+                ->on('taxonomic_blocks')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
         });
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bloque_taxonomico');
+        Schema::dropIfExists('taxonomic_blocks');
     }
 };

@@ -11,24 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('observacion', function (Blueprint $table) {
+        Schema::create('species_taxonomic_blocks', function (Blueprint $table) {
             $table->id();
-            $table->time('inicio_deteccion');
-            $table->time('fin_deteccion');
-            $table->time('duracion_deteccion');
-            $table->foreignId('tiempo_id')
+            $table->foreignId('species_id')
                 ->references('id')
-                ->on('tiempo')
+                ->on('species')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-            $table->foreignId('especie_id')
+            $table->foreignId('taxonomic_block_id')
                 ->references('id')
-                ->on('especie')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
-            $table->foreignId('lugar_id')
-                ->references('id')
-                ->on('lugar')
+                ->on('taxonomic_blocks')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
@@ -39,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('observacion');
+        Schema::dropIfExists('species_taxonomic_blocks');
     }
 };

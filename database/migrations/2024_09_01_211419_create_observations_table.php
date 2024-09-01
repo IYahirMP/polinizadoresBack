@@ -11,16 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('especie_bloque_taxonomico', function (Blueprint $table) {
+        Schema::create('observations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('especie_id')
+            $table->time('detection_begin');
+            $table->time('detection_end');
+            $table->time('detection_duration');
+            $table->foreignId('time_id')
                 ->references('id')
-                ->on('especie')
+                ->on('times')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-            $table->foreignId('bloque_taxonomico_id')
+            $table->foreignId('species_id')
                 ->references('id')
-                ->on('bloque_taxonomico')
+                ->on('species')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->foreignId('place_id')
+                ->references('id')
+                ->on('places')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
@@ -31,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('especie_bloque_taxonomico');
+        Schema::dropIfExists('observations');
     }
 };
