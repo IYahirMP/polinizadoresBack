@@ -8,7 +8,7 @@ class PrototypeController extends Controller
 {
     protected $speciesData;
 
-    public function getImage($filename)
+    public function getImage(Request $request, $filename)
     {
         $path = public_path('speciesImages/' . $filename);
 
@@ -22,24 +22,24 @@ class PrototypeController extends Controller
     public function __construct()
     {
         $this->speciesData = [
-            ["id" => "1", "species" => "Danaus plexippus", "description" => "Very large, with FW long and drawn out. Above, bright, burnt-orange with black veins and black margins sprinkled with white dots; FW tip broadly black interrupted by larger white and orange spots. Below, paler, duskier orange. 1 black spot appears between HW cell and margin on male above and below. Female darker with black veins smudged.", "img" => asset("images/0010001.png")],
-            ["id" => "2", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/0020003.png")],
-            ["id" => "3", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/0030001.png")],
-            ["id" => "4", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg")],
-            ["id" => "5", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg")],
-            ["id" => "6", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg")],
-            ["id" => "7", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg")],
-            ["id" => "8", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg")],
-            ["id" => "9", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg")],
-            ["id" => "10", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg")],
-            ["id" => "11", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg")],
-            ["id" => "12", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg")],
-            ["id" => "13", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg")],
-            ["id" => "14", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg")],
-            ["id" => "15", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg")],
-            ["id" => "16", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg")],
-            ["id" => "17", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg")],
-            ["id" => "18", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg")],
+            ["id" => "1", "species" => "Danaus plexippus", "description" => "Very large, with FW long and drawn out. Above, bright, burnt-orange with black veins and black margins sprinkled with white dots; FW tip broadly black interrupted by larger white and orange spots. Below, paler, duskier orange. 1 black spot appears between HW cell and margin on male above and below. Female darker with black veins smudged.", "img" => asset("images/0010001.png", true)],
+            ["id" => "2", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/0020003.png", true)],
+            ["id" => "3", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/0030001.png", true)],
+            ["id" => "4", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg", true)],
+            ["id" => "5", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg", true)],
+            ["id" => "6", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg", true)],
+            ["id" => "7", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg", true)],
+            ["id" => "8", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg", true)],
+            ["id" => "9", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg", true)],
+            ["id" => "10", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg", true)],
+            ["id" => "11", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg", true)],
+            ["id" => "12", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg", true)],
+            ["id" => "13", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg", true)],
+            ["id" => "14", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg", true)],
+            ["id" => "15", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg", true)],
+            ["id" => "16", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg", true)],
+            ["id" => "17", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg", true)],
+            ["id" => "18", "species" => "Genero Especie", "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim est a urna dignissim varius. Mauris et ligula nisi. Quisque tincidunt semper erat, eu tristique ante hendrerit in.", "img" => asset("images/Lepidoptera.jpg", true)],
         ];
     }
 
@@ -64,7 +64,7 @@ class PrototypeController extends Controller
         return response()->json($paginatedData);
     }
 
-    public function getSpeciesImages()
+    public function getSpeciesImages(Request $request)
     {
         $imageFilenames = [
             '0010001.png',
@@ -86,7 +86,7 @@ class PrototypeController extends Controller
             [
                 "id" => "1",
                 "species" => "Danaus plexippus",
-                "img" => array_map(fn($filename) => asset("images/".$filename), $imageFilenames)
+                "img" => array_map(fn($filename) => asset("images/".$filename, true), $imageFilenames)
             ]
         ];
 
