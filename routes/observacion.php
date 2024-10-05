@@ -1,13 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ObservacionController;
+use App\Http\Controllers\ObservationController;
 
-$names = 'observacion';
-$ruta = 'observacion';
-$var_name = 'observacion';
+/*$names = 'observation';
+$ruta = 'observation';
+$var_name = 'observation';
 
-Route::controller(ObservacionController::class)
+Route::controller(ObservationController::class)
     ->prefix($names)
     ->name($ruta)
     ->group(function () {
@@ -18,16 +18,8 @@ Route::controller(ObservacionController::class)
         Route::get('/{id}', 'show')->name('show');
         Route::put('/{id}', 'update')->name('update');
         Route::delete('/{id}', 'destroy')->name('destroy');
-        Route::post('/{observacion}/editar', 'edit')->name('edit');
+        Route::post('/{observation}/editar', 'edit')->name('edit');
 
 
 });
-
-
-Route::resource($ruta, ObservacionController::class)
-    ->parameters([$ruta => $var_name])
-    ->names($names);
-
-Route::controller(ObservacionController::class)->group(function () {
-
-});
+*/
