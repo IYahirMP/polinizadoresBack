@@ -17,7 +17,8 @@ return new class extends Migration
             $table->smallInteger('month');
             $table->smallInteger('day');
             $table->smallInteger('hour');
-            $table->timestamp("capture_moment");
+            $table->dateTime("capture_moment");
+            $table->timestamps();
         });
     }
 

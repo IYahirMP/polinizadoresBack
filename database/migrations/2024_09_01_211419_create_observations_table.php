@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('observations', function (Blueprint $table) {
             $table->id();
-            $table->time('detection_begin');
-            $table->time('detection_end');
+            $table->dateTime('detection_begin');
+            $table->dateTime('detection_end');
             $table->time('detection_duration');
             $table->foreignId('time_id')
                 ->references('id')
                 ->on('times')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-            $table->foreignId('species_id')
+           /* $table->foreignId('species_id')
                 ->references('id')
                 ->on('species')
                 ->onDelete('cascade')
@@ -30,8 +30,17 @@ return new class extends Migration
                 ->references('id')
                 ->on('places')
                 ->onDelete('cascade')
-                ->onUpdate('cascade');
+                ->onUpdate('cascade');*/
+            $table->timestamps();
         });
+
+        /*Schema::table('times', function (Blueprint $table) {
+            $table->foreignId('observation_id')
+                ->references('id')
+                ->on('observations')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+        });*/
     }
 
     /**
