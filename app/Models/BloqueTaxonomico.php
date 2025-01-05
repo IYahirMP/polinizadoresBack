@@ -10,4 +10,6 @@ class BloqueTaxonomico extends Model
     use HasFactory;
 
     protected $table = 'bloque_taxonomico';
+
+    protected $primaryKey = 'id_bloque';
 }

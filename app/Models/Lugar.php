@@ -9,4 +9,5 @@ class Lugar extends Model
 {
     use HasFactory;
     protected $table = 'lugar';
+    protected $primaryKey = 'id_lugar';
 }

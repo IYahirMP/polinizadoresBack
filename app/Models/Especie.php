@@ -9,4 +9,8 @@ class Especie extends Model
 {
     use HasFactory;
     protected $table = 'especie';
+    protected $primaryKey = 'id_especie';
+    public $incrementing = true;
+    protected $keyType = 'integer';
+    public $timestamps = true;
 }
