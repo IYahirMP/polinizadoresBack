@@ -1,52 +1,44 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ObservationController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\TaxonomicBlockController;
+use Inertia\Inertia;
 
 Route::get('/', function () {
-    return view('welcome');
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
 });
 
-$names = 'observation';
-$ruta = 'observation';
-$var_name = 'observation';
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-/*Route::resource($ruta, ObservationController::class)
-    ->parameters([$ruta => $var_name])
-    ->names($names);
-*/
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-Route::controller(ObservationController::class)
-    ->prefix($names)
-    ->name($ruta)
-    ->group(function () {
+require __DIR__.'/auth.php';
 
-        Route::get('/', 'index')->name('index');
-        Route::post('/', 'store')->name('store');
-        Route::get('/{id}', 'show')->name('show');
-        Route::put('/{id}', 'update')->name('update');
-        Route::delete('/{id}', 'destroy')->name('destroy');
-        Route::post('/{id}/editar', 'edit')->name('edit');
-    });
+use App\Http\Controllers\BloqueTaxonomicoController;
+use App\Http\Controllers\EspecieBloqueController;
+use App\Http\Controllers\EspecieController;
+use App\Http\Controllers\ImagenController;
+use App\Http\Controllers\LugarController;
+use App\Http\Controllers\ObservacionesController;
+use App\Http\Controllers\TiempoController;
 
-Route::controller(TaxonomicBlockController::class)
-    ->prefix('admin/taxon')
-    ->group(function () {
-        Route::get('/species', 'getSpecies')->name('getSpecies');
-        Route::get('/', 'index')->name('index');
-        Route::post('/', 'store')->name('store');
-        Route::get('/{id}', 'show')->name('show');
-        Route::put('/{id}', 'update')->name('update');
-        Route::delete('/{id}', 'destroy')->name('destroy');
-        Route::post('/{id}/editar', 'edit')->name('edit');
-        Route::get('/{id}/jerarquia', 'getHierarchy')->name('getHierarchy');
-    });
 
-Route::controller(AdminController::class)
-    ->prefix('admin')
-    ->name('admin')
-    ->group(function () {
-        Route::get('/', 'home')->name('home');
-    });
+Route::apiResource('bloquetaxonomico', controller: BloqueTaxonomicoController::class);
+Route::apiResource('especiebloque', controller: EspecieBloqueController::class);
+Route::apiResource('especie', controller: EspecieController::class);
+Route::apiResource('imagen', controller: ImagenController::class);
+Route::apiResource('lugar', controller: LugarController::class);
+Route::apiResource('observaciones', controller: ObservacionesController::class);
+Route::apiResource('tiempo', controller: TiempoController::class);
