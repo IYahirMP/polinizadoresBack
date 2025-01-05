@@ -33,23 +33,23 @@ class DatabaseSeeder extends Seeder
         // Poblar la tabla 'EspecieBloque'
         foreach ($especies as $especie) {
             EspecieBloque::factory()->create([
-                'id_especie' => $especie->id,
-                'id_bloque' => $bloquesHijos->random()->id,
+                'id_especie' => $especie->id_especie,
+                'id_bloque' => $bloquesHijos->random()->id_bloque,
             ]);
         }
 
         // Poblar la tabla 'Observaciones'
         foreach ($especies as $especie) {
             Observaciones::factory()->create([
-                'id_especie' => $especie->id,
-                'id_lugar' => $lugares->random()->id,
+                'id_especie' => $especie->id_especie,
+                'id_lugar' => $lugares->random()->id_lugar,
             ]);
         }
 
         // Poblar la tabla 'Imagen'
         foreach ($especies as $especie) {
             Imagen::factory()->create([
-                'id_especie' => $especie->id,
+                'id_especie' => $especie->id_especie,
             ]);
         }
     }
