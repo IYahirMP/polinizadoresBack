@@ -35,7 +35,17 @@ use App\Http\Controllers\ObservacionesController;
 use App\Http\Controllers\TiempoController;
 
 
-Route::apiResource('bloquetaxonomico', controller: BloqueTaxonomicoController::class);
+Route::controller(BloqueTaxonomicoController::class)
+    ->prefix("/bloquetaxonomico")
+    ->name("bloquetaxonomico.")
+    ->group(function(){
+    Route::get("/", 'index')->name('index');
+    Route::get('/edit/{bloque}', 'edit')->name('edit');
+    Route::get('/destroy/{bloque}', 'destroy')->name('destroy');
+    Route::get('/create', 'store')->name('store');
+});
+
+
 Route::apiResource('especiebloque', controller: EspecieBloqueController::class);
 Route::apiResource('especie', controller: EspecieController::class);
 Route::apiResource('imagen', controller: ImagenController::class);

@@ -4,48 +4,59 @@ namespace App\Http\Controllers;
 
 use App\Models\BloqueTaxonomico;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
-class BloqueTaxonomicoController
+class BloqueTaxonomicoController extends Controller
 {
     public function index()
     {
-        return response()->json(BloqueTaxonomico::all(), 200);
+        $bloques = BloqueTaxonomico::with('parent')->get();
+        return Inertia::render('BloqueTaxonomico/Index', [
+            'bloques' => $bloques,
+        ]);
+    }
+
+    public function create()
+    {
+        return Inertia::render('BloqueTaxonomico/Create');
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'tipo_bloque' => 'required|string|max:255',
             'nombre' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
-            'id_bloque_padre' => 'nullable|exists:bloquetaxonomico,id',
+            'id_bloque_padre' => 'nullable|exists:bloque_taxonomico,id_bloque',
         ]);
 
-        $bloque = BloqueTaxonomico::create($validated);
-        return response()->json($bloque, 201);
+        BloqueTaxonomico::create($request->all());
+        return redirect()->route('bloquetaxonomico.index')->with('success', 'Bloque created successfully!');
     }
 
-    public function show($bloqueTaxonomico)
+    public function edit(BloqueTaxonomico $bloque)
     {
-        return response()->json(BloqueTaxonomico::where('id_bloque', $bloqueTaxonomico)->firstOrFail(), 200);
+        return Inertia::render('BloqueTaxonomico/Edit', [
+            'bloque' => $bloque,
+        ]);
     }
 
-    public function update(Request $request, BloqueTaxonomico $bloqueTaxonomico)
+    public function update(Request $request, BloqueTaxonomico $bloque)
     {
-        $validated = $request->validate([
-            'tipo_bloque' => 'string|max:255',
-            'nombre' => 'string|max:255',
+        $request->validate([
+            'tipo_bloque' => 'required|string|max:255',
+            'nombre' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
-            'id_bloque_padre' => 'nullable|exists:bloquetaxonomico,id',
+            'id_bloque_padre' => 'nullable|exists:bloque_taxonomico,id_bloque',
         ]);
 
-        $bloqueTaxonomico->update($validated);
-        return response()->json($bloqueTaxonomico, 200);
+        $bloque->update($request->all());
+        return redirect()->route('bloquetaxonomico.index')->with('success', 'Bloque updated successfully!');
     }
 
-    public function destroy(BloqueTaxonomico $bloqueTaxonomico)
+    public function destroy(BloqueTaxonomico $bloque)
     {
-        $bloqueTaxonomico->delete();
-        return response()->json(null, 204);
+        $bloque->delete();
+        return redirect()->route('bloquetaxonomico.index')->with('success', 'Bloque deleted successfully!');
     }
 }
