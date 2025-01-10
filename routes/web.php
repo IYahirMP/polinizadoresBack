@@ -35,20 +35,12 @@ use App\Http\Controllers\ObservacionesController;
 use App\Http\Controllers\TiempoController;
 
 
-Route::controller(BloqueTaxonomicoController::class)
-    ->prefix("/bloquetaxonomico")
-    ->name("bloquetaxonomico.")
-    ->group(function(){
-    Route::get("/", 'index')->name('index');
-    Route::get('/edit/{bloque}', 'edit')->name('edit');
-    Route::get('/destroy/{bloque}', 'destroy')->name('destroy');
-    Route::get('/create', 'store')->name('store');
-});
+Route::resource('bloquetaxonomico', BloqueTaxonomicoController::class);
+Route::get('/bloquetaxonomico/search/{term}',[BloqueTaxonomicoController::class, 'search']);
 
-
-Route::apiResource('especiebloque', controller: EspecieBloqueController::class);
-Route::apiResource('especie', controller: EspecieController::class);
-Route::apiResource('imagen', controller: ImagenController::class);
-Route::apiResource('lugar', controller: LugarController::class);
-Route::apiResource('observaciones', controller: ObservacionesController::class);
-Route::apiResource('tiempo', controller: TiempoController::class);
+// Route::resource('especiebloque', controller: EspecieBloqueController::class);
+// Route::resource('especie', controller: EspecieController::class);
+// Route::resource('imagen', controller: ImagenController::class);
+// Route::resource('lugar', controller: LugarController::class);
+// Route::resource('observaciones', controller: ObservacionesController::class);
+// Route::resource('tiempo', controller: TiempoController::class);

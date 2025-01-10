@@ -4,7 +4,7 @@ import { ThemeProvider } from '@emotion/react';
 import { theme } from '@/AppStyles';
 import Header from '@/header/Header';
 
-export default function Welcome({children}) {
+export default function Welcome() {
     return (
         <>
             <ThemeProvider theme={theme}>
@@ -12,7 +12,7 @@ export default function Welcome({children}) {
                     <Header/>
                 </header>
                 <main>
-                        {children}
+                        <Gallery requestOK={true}/>
                 </main>
             </ThemeProvider>
         </>

@@ -1,10 +1,11 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { Link, usePage } from '@inertiajs/react';
-import { DataGrid } from '@mui/x-data-grid';
-import { Box, Button, Typography, Stack } from '@mui/material';
+import { DataGrid, useGridApiRef, DEFAULT_GRID_AUTOSIZE_OPTIONS } from '@mui/x-data-grid';
+import { Box, Button, ThemeProvider, Typography} from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 import Layout from '../Layout';
-import { DEFAULT_GRID_AUTOSIZE_OPTIONS } from '@mui/x-data-grid';
+import InfoIcon from '@mui/icons-material/Info';
 
 const Index = ({bloques, flash}) => {
 
@@ -45,6 +46,21 @@ const Index = ({bloques, flash}) => {
                 ><Delete /></Button>
             ),
         },
+        {
+            field: 'detalles',
+            maxWidth:200,
+            align:"center",
+            headerName:"Detalles",
+            renderCell: (params) => (
+                <Button
+                    variant="contained"
+                    color="primary"
+                    component={Link}
+                    href={route("bloquetaxonomico.show", params.row.id_bloque)}>
+                        <InfoIcon/>
+                </Button>
+            ),
+        }
     ];
 
     const rows = bloques.map((bloque) => ({
@@ -52,10 +68,19 @@ const Index = ({bloques, flash}) => {
         ...bloque,
     }));
 
+    const apiRef = useGridApiRef;
+
+    useEffect(() => {
+        // Trigger resize whenever rows or columns change
+        if (apiRef.current) {
+          apiRef.current.autoSizeColumns();
+        }
+      }, [rows, columns]);
+
     return (
         <Box className={"p-10"}>
             <Typography variant="h4" gutterBottom>
-                Bloques
+                Bloques taxonomicos / Taxones
             </Typography>
             {flash != undefined && flash.success && (
                 <Typography variant="body1" color="success.main" gutterBottom>
@@ -67,21 +92,22 @@ const Index = ({bloques, flash}) => {
                     variant="contained"
                     color="primary"
                     component={Link}
-                    href={route('bloquetaxonomico.store')}
+                    href={route('bloquetaxonomico.create')}
                 >
-                    Create New Bloque
+                    Añadir nuevo taxón
                 </Button>
             </Box>
                 <DataGrid
+                    
                     columns={columns}
                     disableSelectionOnClick
                     rowsPerPageOptions={[2, 10, 20]}
-                    autosizeOnMount
+                    disableColumnResize={true}
                     rows={rows}
                 />
         </Box>
     );
 }
 
-Index.layout = (page) => <Layout children={page} title="some"></Layout>;
+Index.layout = (page) => <Layout children={page} title="Taxones"></Layout>;
 export default Index;

@@ -29,9 +29,9 @@ class ImagenController
         return response()->json($imagen, 201);
     }
 
-    public function show(Imagen $imagen)
+    public function show($imagen)
     {
-        return response()->json($imagen, 200);
+        return redirect(asset("species/0010001.png"));
     }
 
     public function update(Request $request, Imagen $imagen)

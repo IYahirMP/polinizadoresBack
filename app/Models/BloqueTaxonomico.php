@@ -19,13 +19,7 @@ class BloqueTaxonomico extends Model
         'id_bloque_padre',
     ];
 
-    public function parent()
-    {
-        return $this->belongsTo(BloqueTaxonomico::class, 'id_bloque_padre');
-    }
-
-    public function children()
-    {
-        return $this->hasMany(BloqueTaxonomico::class, 'id_bloque_padre');
+    public function getParent(){
+        return BloqueTaxonomico::select('*')->where('id_bloque', $this->id_bloque_padre)->get()->first();
     }
 }

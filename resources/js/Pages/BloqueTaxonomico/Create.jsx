@@ -1,45 +1,150 @@
 import React, { useState } from 'react';
-import { useForm } from '@inertiajs/react';
+import { CircularProgress } from '@mui/material';
+import { Link, useForm } from '@inertiajs/react';
+import { Box, Button, Grid, MenuItem, TextField, Typography, Autocomplete } from '@mui/material';
+import Layout from '../Layout';
 
-export default function Create() {
-    const { data, setData, post, errors } = useForm({
+const Create = () => {
+
+    const [bloquesPadreOptions, setBloquesPadreOptions] = useState([]); // Options for autocomplete
+    const [loading, setLoading] = useState(false); // Loading state
+
+    const handleInputChange = (event, value) => {
+        // Trigger API fetch only if input value changes
+        if (value.length > 0) { // Start fetching after 2 characters
+            setLoading(true);
+            fetch(`/bloquetaxonomico/search/${value}`) // Replace with your API endpoint
+                .then((response) => response.json())
+                .then((data) => {
+                    setBloquesPadreOptions(data); // Update options with API response
+                    setLoading(false);
+                })
+                .catch(() => {
+                    setLoading(false);
+                });
+        } else {
+            setBloquesPadreOptions([]); // Clear options if input is too short
+        }
+    };
+    
+    const tiposDeBloque = [
+        'Dominio', 'Reino', 'Filo', 'Clase', 'Orden', 'Familia', 'Género'
+    ];
+
+    const { data, setData, post, errors, processing } = useForm({
         tipo_bloque: '',
         nombre: '',
         descripcion: '',
-        id_bloque_padre: null,
+        id_bloque_padre: '', // nullable, so initially empty
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
         post(route('bloquetaxonomico.store'));
-    };
+    };  
 
     return (
-        <div>
-            <h1>Create Bloque</h1>
+        <Box p={3}>
+            <Typography variant="h4" gutterBottom>
+                Crear nuevo bloque taxonómico
+            </Typography>
             <form onSubmit={handleSubmit}>
-                <label>Tipo Bloque:</label>
-                <input
-                    type="text"
-                    value={data.tipo_bloque}
-                    onChange={(e) => setData('tipo_bloque', e.target.value)}
-                />
-                {errors.tipo_bloque && <div>{errors.tipo_bloque}</div>}
-                <label>Nombre:</label>
-                <input
-                    type="text"
-                    value={data.nombre}
-                    onChange={(e) => setData('nombre', e.target.value)}
-                />
-                {errors.nombre && <div>{errors.nombre}</div>}
-                <label>Descripcion:</label>
-                <textarea
-                    value={data.descripcion}
-                    onChange={(e) => setData('descripcion', e.target.value)}
-                ></textarea>
-                {errors.descripcion && <div>{errors.descripcion}</div>}
-                <button type="submit">Save</button>
+                <Grid container spacing={2}>
+                    {/* ID Bloque Padre */}
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            fullWidth
+                            select
+                            label="Tipo de bloque"
+                            value={data.tipo_bloque}
+                            onChange={(e) => setData('tipo_bloque', e.target.value)}
+                            error={!!errors.tipo_bloque}
+                            helperText={errors.tipo_bloque}
+                        >
+                            <MenuItem value="">Ninguno</MenuItem>
+                            { tiposDeBloque != undefined && tiposDeBloque.map((option) => (
+                                <MenuItem key={option} value={option}>
+                                    {option}
+                                </MenuItem>
+                            )) }
+                        </TextField>
+                    </Grid>
+
+                    {/* Nombre */}
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            fullWidth
+                            label="Nombre"
+                            value={data.nombre}
+                            onChange={(e) => setData('nombre', e.target.value)}
+                            error={!!errors.nombre}
+                            helperText={errors.nombre}
+                            required
+                        />
+                    </Grid>
+
+                    {/* Descripcion */}
+                    <Grid item xs={12}>
+                        <TextField
+                            fullWidth
+                            label="Descripción"
+                            value={data.descripcion}
+                            onChange={(e) => setData('descripcion', e.target.value)}
+                            error={!!errors.descripcion}
+                            helperText={errors.descripcion}
+                            multiline
+                            rows={4}
+                        />
+                    </Grid>
+
+                    {/* ID Bloque Padre */}
+                    <Grid item xs={12} sm={6}>
+                        <Autocomplete
+                            fullWidth
+                            options={bloquesPadreOptions} // State to store fetched options
+                            getOptionLabel={(option) => option.nombre || ""}
+                            value={bloquesPadreOptions.find((option) => option.id_bloque === data.id_bloque_padre) || null}
+                            onChange={(event, newValue) => setData('id_bloque_padre', newValue ? newValue.id_bloque : '')}
+                            onInputChange={handleInputChange} // Handles keystroke changes
+                            loadingText="Cargando..."
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Taxón superior"
+                                    error={!!errors.id_bloque_padre}
+                                    helperText={errors.id_bloque_padre}
+                                    InputProps={{
+                                        ...params.InputProps,
+                                        endAdornment: (
+                                            <>
+                                                {loading && <CircularProgress color="inherit" size={20} />}
+                                                {params.InputProps.endAdornment}
+                                            </>
+                                        ),
+                                    }}
+                                />
+                            )}
+                            isOptionEqualToValue={(option, value) => option.id_bloque === value.id_bloque}
+                            loading={loading} // Shows loading spinner while fetching
+                            noOptionsText="No se encontraron resultados"
+                        />
+                    </Grid>
+                </Grid>
+
+                {/* Submit Button */}
+                <Box mt={3}>
+                    <Button type="submit" variant="contained" color="primary" 
+                    disabled={processing} style={{margin:10}}>
+                        {processing ? 'Creando...' : 'Crear'}
+                    </Button>
+                    <Button variant="contained" color="primary" style={{margin:10}}>
+                        <Link href={route("bloquetaxonomico.index")}>Regresar al índice</Link>
+                    </Button>
+                </Box>
             </form>
-        </div>
+        </Box>
     );
-}
+};
+
+Create.layout = (page) => <Layout children={page} title="Create Bloque Taxonómico" />;
+export default Create;
