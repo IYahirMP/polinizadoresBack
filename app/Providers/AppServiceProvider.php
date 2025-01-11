@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
-use App\View\Composers\ObservacionComposer;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,6 +23,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer('*', ObservacionComposer::class);
+        Vite::prefetch(concurrency: 3);
+
+        if (config('app.debug')) { // Only log in debug mode
+            DB::listen(function ($query) {
+                Log::info(
+                    $query->sql,
+                    $query->bindings,
+                    $query
+                );
+            });
+        }
     }
 }

@@ -2,32 +2,55 @@
 
 namespace Database\Seeders;
 
-use App\Models\Observation;
-use App\Models\Time;
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Tiempo;
+use App\Models\Lugar;
+use App\Models\BloqueTaxonomico;
+use App\Models\Especie;
+use App\Models\EspecieBloque;
+use App\Models\Observaciones;
+use App\Models\Imagen;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
-    public function run(): void
+    public function run()
     {
-        // User::factory(10)->create();
+        // Poblar la tabla 'Tiempo'
+        $tiempos = Tiempo::factory()->count(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Poblar la tabla 'Lugar'
+        $lugares = Lugar::factory()->count(5)->create();
+
+        // Poblar la tabla 'BloqueTaxonomico'
+        $bloquesPadre = BloqueTaxonomico::factory()->count(3)->create(); // Bloques raíz
+        $bloquesHijos = BloqueTaxonomico::factory()->count(6)->create([
+            'id_bloque_padre' => $bloquesPadre->random()->id,
         ]);
 
-        Time::factory(100)->create()
-            ->each(function (Time $time) {
-                Observation::factory(1)->create([
-                    'time_id' => $time->id
-                ]);
-            });
+        // Poblar la tabla 'Especie'
+        $especies = Especie::factory()->count(10)->create();
 
+        // Poblar la tabla 'EspecieBloque'
+        foreach ($especies as $especie) {
+            EspecieBloque::factory()->create([
+                'id_especie' => $especie->id_especie,
+                'id_bloque' => $bloquesHijos->random()->id_bloque,
+            ]);
+        }
+
+        // Poblar la tabla 'Observaciones'
+        foreach ($especies as $especie) {
+            Observaciones::factory()->create([
+                'id_especie' => $especie->id_especie,
+                'id_lugar' => $lugares->random()->id_lugar,
+            ]);
+        }
+
+        // Poblar la tabla 'Imagen'
+        foreach ($especies as $especie) {
+            Imagen::factory()->create([
+                'id_especie' => $especie->id_especie,
+            ]);
+        }
     }
 }
