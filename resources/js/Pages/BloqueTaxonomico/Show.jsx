@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Button, Typography, Stack, Card, CardContent, Divider, Container, List, TableRow, Table, TableHead, TableCell, TableBody } from '@mui/material';
-import { ArrowBack } from '@mui/icons-material';
+import { ArrowBack,} from '@mui/icons-material';
+import EditIcon from '@mui/icons-material/Edit';
 import { Link } from '@inertiajs/react';
 import Layout from '../Layout';
 import InfoIcon from '@mui/icons-material/Info';
@@ -19,7 +20,7 @@ const DataBox = ({titulo, info, link}) => {
     )
 }
 
-const Show = ({ bloque, bloquePadre, descendientesDirectos }) => {
+const Show = ({ bloque, bloquePadre, descendientesDirectos, tieneDescendientes }) => {
   console.log(descendientesDirectos);  
 
   return (
@@ -29,15 +30,29 @@ const Show = ({ bloque, bloquePadre, descendientesDirectos }) => {
       </Typography>
 
       <Box mb={2}>
-        <Button
-          variant="outlined"
-          color="primary"
-          startIcon={<ArrowBack />}
-          component={Link}
-          href={route('bloquetaxonomico.index')}
-        >
-          Back to List
-        </Button>
+        <div className={"mr-5 inline-block"}>
+          <Button
+            variant="outlined"
+            color="primary"
+            startIcon={<ArrowBack />}
+            component={Link}
+            href={route('bloquetaxonomico.index')}
+          >
+            Regresar al índice
+            </Button>
+        </div>
+        <div className={" inline-block"}>
+          <Button
+            variant="outlined"
+            color="primary"
+            startIcon={<EditIcon />}
+            component={Link}
+            href={route('bloquetaxonomico.edit', bloque.id_bloque)}
+          >
+            Editar
+          </Button>
+        </div>
+        
       </Box>
 
       <Card variant="outlined">
@@ -73,7 +88,8 @@ const Show = ({ bloque, bloquePadre, descendientesDirectos }) => {
         </CardContent>
       </Card>
 
-      <Card>
+      {descendientesDirectos != undefined && tieneDescendientes &&(
+        <Card className="mt-10 p-10">
         <Typography variant="h6">Descendientes directos</Typography>
         <Table>
           <TableHead>
@@ -84,7 +100,7 @@ const Show = ({ bloque, bloquePadre, descendientesDirectos }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {descendientesDirectos != undefined && descendientesDirectos.map((a) => {
+            {descendientesDirectos.map((a) => {
               return( 
               <TableRow key={a.id_bloque}>
                 <TableCell>{a.nombre}</TableCell>
@@ -95,6 +111,7 @@ const Show = ({ bloque, bloquePadre, descendientesDirectos }) => {
           </TableBody>
         </Table>
       </Card>
+      )}
     </Box>
   );
 };

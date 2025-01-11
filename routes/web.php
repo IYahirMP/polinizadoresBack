@@ -36,11 +36,12 @@ use App\Http\Controllers\TiempoController;
 
 
 Route::resource('bloquetaxonomico', BloqueTaxonomicoController::class);
-Route::get('/bloquetaxonomico/search/{term}',[BloqueTaxonomicoController::class, 'search']);
+Route::get('/bloquetaxonomico/search/{term}',[BloqueTaxonomicoController::class, 'search'])
+    ->name("bloquetaxonomico.search");
 
-// Route::resource('especiebloque', controller: EspecieBloqueController::class);
-// Route::resource('especie', controller: EspecieController::class);
-// Route::resource('imagen', controller: ImagenController::class);
-// Route::resource('lugar', controller: LugarController::class);
-// Route::resource('observaciones', controller: ObservacionesController::class);
-// Route::resource('tiempo', controller: TiempoController::class);
+Route::resource('especiebloque', controller: EspecieBloqueController::class);
+Route::resource('especie', controller: EspecieController::class);
+Route::resource('imagen', controller: ImagenController::class);
+Route::resource('lugar', controller: LugarController::class);
+Route::resource('observaciones', controller: ObservacionesController::class);
+Route::resource('tiempo', controller: TiempoController::class);

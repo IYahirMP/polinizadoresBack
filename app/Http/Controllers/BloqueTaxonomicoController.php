@@ -39,12 +39,15 @@ class BloqueTaxonomicoController extends Controller
             $descendientesDirectos = $vals;
         }
 
+        $tieneDescendientes = sizeof($descendientesDirectos) != 0;
+
 
         // dd($bloquePadre);
         return Inertia::render('BloqueTaxonomico/Show',[
             "bloque" => $bloque,
             "bloquePadre" => $bloquePadre,
             "descendientesDirectos" => $descendientesDirectos,
+            "tieneDescendientes" => $tieneDescendientes,
         ]);
     }
 
@@ -58,10 +61,13 @@ class BloqueTaxonomicoController extends Controller
         ]);
     }
 
-    public function edit(BloqueTaxonomico $bloque)
+    public function edit($id_bloque)
     {
+        $bloque = BloqueTaxonomico::findOrFail($id_bloque);
+        $bloquePadre = $bloque->getParent();
         return Inertia::render('BloqueTaxonomico/Edit', [
             'bloque' => $bloque,
+            'padre' => $bloquePadre,
         ]);
     }
 
@@ -80,7 +86,7 @@ class BloqueTaxonomicoController extends Controller
         return redirect()->route('bloquetaxonomico.index')->with('success', 'Bloque created successfully!');
     }
 
-    public function update(Request $request, BloqueTaxonomico $bloque)
+    public function update(Request $request, $bloque)
     {
         $request->validate([
             'tipo_bloque' => 'required|string|max:255',
@@ -89,13 +95,15 @@ class BloqueTaxonomicoController extends Controller
             'id_bloque_padre' => 'nullable|exists:bloque_taxonomico,id_bloque',
         ]);
 
+        $bloque = BloqueTaxonomico::findOrFail($bloque);
+
         $bloque->update($request->all());
         return redirect()->route('bloquetaxonomico.index')->with('success', 'Bloque updated successfully!');
     }
 
-    public function destroy(BloqueTaxonomico $bloque)
+    public function destroy($bloque)
     {
-        $bloque->delete();
+        $destroyed = BloqueTaxonomico::destroy($bloque);
         return redirect()->route('bloquetaxonomico.index')->with('success', 'Bloque deleted successfully!');
     }
 

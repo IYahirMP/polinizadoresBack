@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { Link, usePage } from '@inertiajs/react';
+import { Link, router} from '@inertiajs/react';
 import { DataGrid, useGridApiRef, DEFAULT_GRID_AUTOSIZE_OPTIONS } from '@mui/x-data-grid';
 import { Box, Button, ThemeProvider, Typography} from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
@@ -11,7 +11,8 @@ const Index = ({bloques, flash}) => {
 
     const handleDelete = (id) => {
         if (confirm('Are you sure you want to delete this bloque?')) {
-            Inertia.delete(route('bloquetaxonomico.destroy', id));
+            router.delete(route("bloquetaxonomico.destroy", id), {});
+            console.log("deleted");
         }
     };
 
