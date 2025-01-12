@@ -18,6 +18,7 @@ class ImagenFactory extends Factory
     {
         return [
             'id_especie' => \App\Models\Especie::factory(),
+            'url' => $this->faker->url(),
         ];
     }
 }
