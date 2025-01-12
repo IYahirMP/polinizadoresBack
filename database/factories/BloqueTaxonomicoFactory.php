@@ -17,7 +17,7 @@ class BloqueTaxonomicoFactory extends Factory
     public function definition(): array
     {
         return [
-            'tipo_bloque' => $this->faker->randomElement(['Reino', 'Filo', 'Clase', 'Orden', 'Familia', 'Género', 'Especie']),
+            'tipo_bloque' => $this->faker->randomElement(['Reino', 'Filo', 'Clase', 'Orden', 'Familia', 'Género']),
             'nombre' => $this->faker->word,
             'descripcion' => $this->faker->sentence,
             'id_bloque_padre' => null, // Esto puede ser ajustado dinámicamente en el Seeder

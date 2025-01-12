@@ -8,9 +8,8 @@ import Layout from '../Layout';
 import InfoIcon from '@mui/icons-material/Info';
 
 const Index = ({bloques, flash}) => {
-
     const handleDelete = (id) => {
-        if (confirm('Are you sure you want to delete this bloque?')) {
+        if (confirm('Estás seguro de que deseas eliminar este bloque?')) {
             router.delete(route("bloquetaxonomico.destroy", id), {});
             console.log("deleted");
         }
@@ -64,12 +63,12 @@ const Index = ({bloques, flash}) => {
         }
     ];
 
+    const apiRef = useGridApiRef;
+
     const rows = bloques.map((bloque) => ({
         id: bloque.id_bloque,
         ...bloque,
     }));
-
-    const apiRef = useGridApiRef;
 
     useEffect(() => {
         // Trigger resize whenever rows or columns change
@@ -98,14 +97,20 @@ const Index = ({bloques, flash}) => {
                     Añadir nuevo taxón
                 </Button>
             </Box>
+            <div style={{height:'80vh'}}>
                 <DataGrid
-                    
-                    columns={columns}
-                    disableSelectionOnClick
-                    rowsPerPageOptions={[2, 10, 20]}
-                    disableColumnResize={true}
-                    rows={rows}
-                />
+                        columns={columns}
+                        disableSelectionOnClick
+                        rows={rows}
+                        disableColumnResize={true}
+                        pageSizeOptions={[10, 20, 30]}
+                        initialState={{
+                            pagination:{
+                                paginationModel:{pageSize:10, page:0}
+                            }
+                        }}
+                    />
+            </div>
         </Box>
     );
 }
