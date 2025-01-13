@@ -35,7 +35,7 @@ class EspecieController
     {
         $especie = Especie::findOrFail($especie);
         $jerarquia = $especie->getOrderedHierarchy();
-        $jerarquia[count($jerarquia)] = ["Especie", $especie->nombre];
+        $jerarquia[count($jerarquia)] = ["Especie", $especie->nombre,$especie->id_especie];
 
         return Inertia::render('Especie/Show',[
             "especie" => $especie,

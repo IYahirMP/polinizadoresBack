@@ -23,22 +23,7 @@ class BloqueTaxonomicoController extends Controller
         $bloque = BloqueTaxonomico::all()->where("id_bloque",$bloque)->first();
         // dd($bloque->id_bloque);
         $bloquePadre = $bloque->getParent();
-        $descendientesDirectosTmp = BloqueTaxonomico::all()->where("id_bloque_padre","=" ,$bloque->id_bloque);
-
-        if ($descendientesDirectosTmp->toArray() == null){
-            $descendientesDirectos = array();
-        }else{
-            $descendientesDirectos = $descendientesDirectosTmp->toArray();   
-            $vals = array();
-
-            $i = 0;
-            foreach ($descendientesDirectos as $k=>$v){
-                $vals[$i] = $v;
-                $i++;
-            }
-            $descendientesDirectos = $vals;
-        }
-
+        $descendientesDirectos = $bloque->getDirectDescendants();
         $tieneDescendientes = sizeof($descendientesDirectos) != 0;
 
 

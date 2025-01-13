@@ -20,7 +20,7 @@ class Especie extends Model
         $jerarquia = DB::table('especie')
             ->join('especie_bloque', 'especie.id_especie', "=", 'especie_bloque.id_especie')
             ->join('bloque_taxonomico', 'especie_bloque.id_bloque', '=', 'bloque_taxonomico.id_bloque')
-            ->select(['bloque_taxonomico.nombre', 'bloque_taxonomico.tipo_bloque'])
+            ->select(['bloque_taxonomico.nombre', 'bloque_taxonomico.tipo_bloque', 'bloque_taxonomico.id_bloque'])
             ->where('especie.id_especie','=',$this->id_especie)->get();
 
         $taxonesOrdenados = [
@@ -41,7 +41,7 @@ class Especie extends Model
             {
                 if ($taxon->tipo_bloque == $taxonCorrecto)
                 {
-                    $jerarquiaOrdenada[$i++] = [$taxonCorrecto, $taxon->nombre];
+                    $jerarquiaOrdenada[$i++] = [$taxonCorrecto, $taxon->nombre, $taxon->id_bloque];
                 }
             }
         }

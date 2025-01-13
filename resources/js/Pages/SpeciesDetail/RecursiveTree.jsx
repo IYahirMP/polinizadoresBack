@@ -2,6 +2,7 @@ import { styled, alpha } from '@mui/material/styles';
 import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
 import { TreeItem, treeItemClasses } from '@mui/x-tree-view/TreeItem';
 import "./recursivetree.css";
+import { Link } from '@inertiajs/react';
 
 
 /**
@@ -37,7 +38,16 @@ const SubTree = ({ children, itemId, label }) => {
     );
 };
 
-const Label = ({taxa, name}) => <div className="tree-label"><span className="taxa">{taxa}:</span><span className="taxaName">{name}</span></div>;
+const Label = ({taxa, name, taxaId}) => {
+    console.log(taxaId);
+
+    let url = (taxa == "Especie") ? "especie.show" : "bloquetaxonomico.show";
+
+    return (
+    <div className="tree-label">
+        <span className="taxa">{taxa}:</span>
+        <Link className="taxaName"href={route(url, taxaId)}>{name}</Link>
+    </div>)};
 
 /**
  * Componente recursivo.
@@ -56,13 +66,16 @@ const RecursiveTree = ({hierarchy, begin}) => {
 
     let taxa = hierarchy[currentTaxaIndex][0];
     let name = hierarchy[currentTaxaIndex][1];
+    let id = hierarchy[currentTaxaIndex][2];
+
+    // console.log(hierarchy[currentTaxaIndex]);
 
     // Caso base
     // Si se ha llegado al final de la jerarquia, se retorna un elemento sencillo.
     if (currentTaxaIndex === noOfTaxa - 1) {
         return <TreeItem  className="someClass"
             itemId={taxa}
-            label={<Label taxa={taxa} name={name}/>} 
+            label={<Label taxa={taxa} name={name} taxaId={id}/>} 
             autoFocus
             />;
     }
@@ -73,7 +86,7 @@ const RecursiveTree = ({hierarchy, begin}) => {
     return (
         <SubTree
             itemId={taxa}
-            label={<Label taxa={taxa} name={name}/>}>
+            label={<Label taxa={taxa} name={name} taxaId={id}/>}>
             <RecursiveTree hierarchy={hierarchy} begin={currentTaxaIndex + 1}/>
         </SubTree>
     );

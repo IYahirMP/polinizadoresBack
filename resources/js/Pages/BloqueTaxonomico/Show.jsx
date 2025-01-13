@@ -21,7 +21,7 @@ const DataBox = ({titulo, info, link}) => {
 }
 
 const Show = ({ bloque, bloquePadre, descendientesDirectos, tieneDescendientes }) => {
-  console.log(descendientesDirectos);  
+  const rutaDescendientes = (bloque.tipo_bloque == "Género") ? 'especie.show': 'bloquetaxonomico.show';
 
   return (
     <Box p={3}>
@@ -100,12 +100,13 @@ const Show = ({ bloque, bloquePadre, descendientesDirectos, tieneDescendientes }
             </TableRow>
           </TableHead>
           <TableBody>
-            {descendientesDirectos.map((a) => {
+            {
+            descendientesDirectos.map((a) => {
               return( 
               <TableRow key={a.id_bloque}>
                 <TableCell>{a.nombre}</TableCell>
                 <TableCell>{a.descripcion}</TableCell>
-                <TableCell><Link href={route('bloquetaxonomico.show', a.id_bloque)}><InfoIcon/></Link></TableCell>
+                <TableCell><Link href={route(rutaDescendientes, a.id_bloque)}><InfoIcon/></Link></TableCell>
               </TableRow>
             )})}
           </TableBody>

@@ -31,7 +31,6 @@ class DatabaseSeeder extends Seeder
             ['nombre' => 'Primates', 'tipo_bloque' => 'Órden', 'id_bloque_padre' => 4],
             ['nombre' => 'Hominidae', 'tipo_bloque' => 'Familia', 'id_bloque_padre' => 5],
             ['nombre' => 'Homo', 'tipo_bloque' => 'Género', 'id_bloque_padre' => 6],
-            ['nombre' => 'Homo sapiens', 'tipo_bloque' => 'Especie', 'id_bloque_padre' => 7],
         ];
 
         // Insert data into the database
@@ -61,7 +60,6 @@ class DatabaseSeeder extends Seeder
             5, // Primates
             6, // Hominidae
             7, // Homo
-            8, // Homo sapiens
         ];
 
         // Step 3: Insert the relationships into the `especie_bloque` table
