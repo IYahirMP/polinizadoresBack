@@ -1,0 +1,40 @@
+#myid .Mui-disabled{
+    background-color: rgba(0,0,0,0);
+    color:black;
+}
+
+#myid .Mui-expanded{
+    background-color: rgba(0,0,0,0);
+    color:black;
+
+}
+
+#myid .Mui-focused{
+    background-color: rgba(0,0,0,0);
+    color:black;
+
+}
+
+#myid .Mui-selected{
+    background-color: rgba(0,0,0,0);
+    color:black;
+
+}
+
+#myid *{
+    font-size: 1.2rem;
+}
+
+#myid .MuiTreeItem-content{
+    margin: 3px;
+    font-size: '3rem';
+}
+
+#myid .taxa{
+    font-weight: 800;
+    padding-right: 20px;
+}
+
+#myid .tree-label{
+    border-bottom: 2px solid;
+}

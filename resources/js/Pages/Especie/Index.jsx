@@ -1,25 +1,25 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { Link, router} from '@inertiajs/react';
-import { DataGrid, useGridApiRef, DEFAULT_GRID_AUTOSIZE_OPTIONS } from '@mui/x-data-grid';
-import { Box, Button, ThemeProvider, Typography} from '@mui/material';
+import { DataGrid, useGridApiRef } from '@mui/x-data-grid';
+import { Box, Button, Typography} from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 import Layout from '../Layout';
 import InfoIcon from '@mui/icons-material/Info';
-import { FLASH_OPTIONS } from '../Especie/FlashOptions';
+import { FLASH_OPTIONS } from './FlashOptions';
 
-const Index = ({bloques, flash}) => {
+const Index = ({especies, flash}) => {
     const handleDelete = (id) => {
-        if (confirm('Estás seguro de que deseas eliminar este bloque?')) {
-            router.delete(route("bloquetaxonomico.destroy", id), {});
+        if (confirm('Estás seguro de que deseas eliminar esta especie?')) {
+            router.delete(route("especie.destroy", id), {});
             console.log("deleted");
         }
     };
 
     const columns = [
-        { field: 'id_bloque', headerName: 'ID', maxWidth:"100"},
-        { field: 'tipo_bloque', headerName: 'Tipo', flex:1},
+        { field: 'id_especie', headerName: 'ID', maxWidth:"100"},
         { field: 'nombre', headerName: 'Nombre', flex:1},
+        { field: 'nombre_comun', headerName: 'Nombre común', flex:1},
         {
             field: 'edit',
             maxWidth:"100",
@@ -30,7 +30,7 @@ const Index = ({bloques, flash}) => {
                 variant="contained"
                 color="primary"
                 component={Link}
-                href={route('bloquetaxonomico.edit', params.row.id_bloque)}
+                href={route('especie.edit', params.row.id_especie)}
                 ><Edit /></Button>                    
             ),
         },
@@ -43,7 +43,7 @@ const Index = ({bloques, flash}) => {
                 <Button
                     variant="contained"
                     color="error"
-                    onClick={() => handleDelete(params.row.id_bloque)}
+                    onClick={() => handleDelete(params.row.id_especie)}
                 ><Delete /></Button>
             ),
         },
@@ -57,7 +57,7 @@ const Index = ({bloques, flash}) => {
                     variant="contained"
                     color="primary"
                     component={Link}
-                    href={route("bloquetaxonomico.show", params.row.id_bloque)}>
+                    href={route("especie.show", params.row.id_especie)}>
                         <InfoIcon/>
                 </Button>
             ),
@@ -66,9 +66,9 @@ const Index = ({bloques, flash}) => {
 
     const apiRef = useGridApiRef;
 
-    const rows = bloques.map((bloque) => ({
-        id: bloque.id_bloque,
-        ...bloque,
+    const rows = especies.map((especie) => ({
+        id: especie.id_especie,
+        ...especie,
     }));
 
     useEffect(() => {
@@ -91,27 +91,30 @@ const Index = ({bloques, flash}) => {
 
     return (
         <Box className={"p-10"}>
-            <Typography variant="h4" gutterBottom>
-                Bloques taxonomicos / Taxones
-            </Typography>
-            {flash != undefined && flash.message && (
-                <div className="mb-5">
-                    <Typography variant="h5" color={currentFlash.color} gutterBottom>
-                        {`${currentFlash.header}: ${flash.message.text}`}
-                    </Typography>
-                    <Typography variant="body1" color={currentFlash.color} gutterBottom>
-                        {currentFlash.message}
-                    </Typography>
-                </div>
-            )}
+            <Box className="">
+                <Typography variant="h4" gutterBottom>
+                    Especies
+                </Typography>
+                {flash != undefined && flash.message && (
+                    <div className="mb-5">
+                        <Typography variant="h5" color={currentFlash.color} gutterBottom>
+                            {`${currentFlash.header}: ${flash.message.text}`}
+                        </Typography>
+                        <Typography variant="body1" color={currentFlash.color} gutterBottom>
+                            {currentFlash.message}
+                        </Typography>
+                    </div>
+                )}
+            </Box>
+            
             <Box mb={2}>
                 <Button
                     variant="contained"
                     color="primary"
                     component={Link}
-                    href={route('bloquetaxonomico.create')}
+                    href={route('especie.create')}
                 >
-                    Añadir nuevo taxón
+                    Añadir nueva especie
                 </Button>
             </Box>
             <div style={{height:'80vh'}}>
@@ -132,5 +135,5 @@ const Index = ({bloques, flash}) => {
     );
 }
 
-Index.layout = (page) => <Layout children={page} title="Taxones"></Layout>;
+Index.layout = (page) => <Layout children={page} title="Especies"></Layout>;
 export default Index;

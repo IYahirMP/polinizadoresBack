@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { CircularProgress } from '@mui/material';
 import { Link, useForm } from '@inertiajs/react';
 import { Box, Button, Grid, MenuItem, TextField, Typography, Autocomplete } from '@mui/material';
@@ -9,13 +9,26 @@ const Create = () => {
     const [bloquesPadreOptions, setBloquesPadreOptions] = useState([]); // Options for autocomplete
     const [loading, setLoading] = useState(false); // Loading state
 
-    const handleInputChange = (event, value) => {
+    const handleInputChange = (event, value, tipo) => {
+        const taxonesSuperiores = {
+            "Dominio":"",
+            "Reino":"dominio",
+            "Filo":"reino",
+            "Clase":"filo",
+            "Órden":"clase",
+            "Familia":"orden",
+            "Género":"familia",
+            }
+
+        // setInputValue(value);
+        setData('id_bloque_padre', "");
         // Trigger API fetch only if input value changes
-        if (value.length > 0) { // Start fetching after 2 characters
+        if (value.length > 0 && tipo != 'Dominio') { // Start fetching after 2 characters
             setLoading(true);
-            fetch(`/bloquetaxonomico/search/${value}`) // Replace with your API endpoint
+            fetch(`/bloquetaxonomico/search/${value}?tipo=${taxonesSuperiores[tipo]}`) // Replace with your API endpoint
                 .then((response) => response.json())
                 .then((data) => {
+                    // console.log(data);
                     setBloquesPadreOptions(data); // Update options with API response
                     setLoading(false);
                 })
@@ -98,37 +111,41 @@ const Create = () => {
                     </Grid>
 
                     {/* ID Bloque Padre */}
-                    <Grid item xs={12} sm={6}>
-                        <Autocomplete
-                            fullWidth
-                            options={bloquesPadreOptions} // State to store fetched options
-                            getOptionLabel={(option) => option.nombre || ""}
-                            value={bloquesPadreOptions.find((option) => option.id_bloque === data.id_bloque_padre) || null}
-                            onChange={(event, newValue) => setData('id_bloque_padre', newValue ? newValue.id_bloque : '')}
-                            onInputChange={handleInputChange} // Handles keystroke changes
-                            loadingText="Cargando..."
-                            renderInput={(params) => (
-                                <TextField
-                                    {...params}
-                                    label="Taxón superior"
-                                    error={!!errors.id_bloque_padre}
-                                    helperText={errors.id_bloque_padre}
-                                    InputProps={{
-                                        ...params.InputProps,
-                                        endAdornment: (
-                                            <>
-                                                {loading && <CircularProgress color="inherit" size={20} />}
-                                                {params.InputProps.endAdornment}
-                                            </>
-                                        ),
-                                    }}
-                                />
-                            )}
-                            isOptionEqualToValue={(option, value) => option.id_bloque === value.id_bloque}
-                            loading={loading} // Shows loading spinner while fetching
-                            noOptionsText="No se encontraron resultados"
-                        />
-                    </Grid>
+                    {data.tipo_bloque != 'Dominio' && (
+                        <Grid item xs={12} sm={6}>
+                            <Autocomplete
+                                fullWidth
+                                options={bloquesPadreOptions} // State to store fetched options
+                                value={bloquesPadreOptions.find(option => option.id_bloque === data.id_bloque_padre) || null}
+                                getOptionLabel={(option) => `${option.nombre}: ${option.id_bloque}` || ""}
+                                isOptionEqualToValue={(option, value) => option.id_bloque === value.id_bloque}
+                                onChange={(event, newValue) => {
+                                    setData('id_bloque_padre', newValue ? newValue.id_bloque : '');
+                                }}
+                                onInputChange={(event, value) => handleInputChange(event, value, data.tipo_bloque)} // Handles keystroke changes
+                                freeSolo
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Taxón superior"
+                                        error={!!errors.id_bloque_padre}
+                                         helperText={"Es necesario incluir este campo"}
+                                        InputProps={{
+                                            ...params.InputProps,
+                                            endAdornment: (
+                                                <>
+                                                    {loading && <CircularProgress color="inherit" size={20} />}
+                                                    {params.InputProps.endAdornment}
+                                                </>
+                                            ),
+                                        }}
+                                    />
+                                )}
+                                loading={loading} // Shows loading spinner while fetching
+                                noOptionsText="No se encontraron resultados"
+                            />
+                        </Grid>
+                    )}
                 </Grid>
 
                 {/* Submit Button */}

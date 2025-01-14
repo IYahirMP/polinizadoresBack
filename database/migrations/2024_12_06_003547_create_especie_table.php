@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('especie', function (Blueprint $table) {
             $table->id('id_especie');
+            $table->string('nombre_comun')->nullable();
+            $table->string('nombre');
+            $table->text('descripcion');
             $table->timestamps();
         });
     }

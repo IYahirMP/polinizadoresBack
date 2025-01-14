@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('especie_bloque', function (Blueprint $table) {
             $table->id('id_especie_bloque');
-            $table->foreignId('id_especie')->constrained('especie', 'id_especie');
-            $table->foreignId('id_bloque')->constrained('bloque_taxonomico', 'id_bloque');
+            $table->foreignId('id_especie')->constrained('especie', 'id_especie')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('id_bloque')->constrained('bloque_taxonomico', 'id_bloque')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

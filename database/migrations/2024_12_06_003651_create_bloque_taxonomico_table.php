@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('id_bloque');
             $table->string('tipo_bloque');
             $table->string('nombre');
-            $table->text('descripcion')->nullable();
+            $table->text('descripcion');
             $table->foreignId('id_bloque_padre')->nullable()->constrained('bloque_taxonomico', 'id_bloque');
             $table->timestamps();
         });

@@ -17,7 +17,9 @@ class EspecieFactory extends Factory
     public function definition(): array
     {
         return [
-            // No hay campos adicionales en la tabla especie, así que se deja vacío
+            'nombre_comun' => $this->faker->name(),
+            'nombre' => $this->faker->name(),
+            'descripcion' => $this->faker->text(),
         ];
     }
 }

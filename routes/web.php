@@ -36,8 +36,8 @@ use App\Http\Controllers\TiempoController;
 
 
 Route::resource('bloquetaxonomico', BloqueTaxonomicoController::class);
-Route::get('/bloquetaxonomico/search/{term}',[BloqueTaxonomicoController::class, 'search'])
-    ->name("bloquetaxonomico.search");
+Route::get('/bloquetaxonomico/search/{term}',[BloqueTaxonomicoController::class, 'search'])->name("bloquetaxonomico.search");
+Route::get('/bloquetaxonomico/ancestors/{id}', [BloqueTaxonomicoController::class, 'ancestors'])->name('bloquetaxonomico.ancestors');
 
 Route::resource('especiebloque', controller: EspecieBloqueController::class);
 Route::resource('especie', controller: EspecieController::class);
