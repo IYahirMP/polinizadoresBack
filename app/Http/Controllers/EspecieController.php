@@ -14,8 +14,37 @@ class EspecieController
 {
     public function store(Request $request)
     {
-        $especie = Especie::create([]);
-        return response()->json($especie, 201);
+        $flash = array(
+            "action" => 'create',
+            "status" => 'ok',
+            'text' => 'La especie se creó correctamente',
+        );
+
+        $request->validate([
+            'nombre_comun' => 'required|string|max:255',
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'required|string|max:255',
+            'id_bloque_padre' => 'required|exists:bloque_taxonomico,id_bloque',
+        ]);
+
+        try{
+            DB::beginTransaction();
+            $especie = Especie::create($request->all());
+            $this->vincularAncestros($request, $especie->id_especie);
+            DB::commit();
+
+        }catch(Exception $e){
+            $flash['status'] = 'bad';
+            $flash["text"] = 'No se pudo crear la especie';
+            DB::rollBack();
+
+            return redirect()->action([EspecieController::class, 'index'])
+                ->with('message', $flash);
+                    
+        }
+
+        return redirect()->action([EspecieController::class, 'index'])
+                ->with('message', $flash);
     }
 
     
@@ -67,19 +96,7 @@ class EspecieController
             ]);
 
             DB::table('especie_bloque')->where('id_especie','=', $id)->delete();
-            $bloquePadre = BloqueTaxonomico::findOrFail($request->id_bloque_padre);
-            $ancestros = $bloquePadre->getAncestors();
-
-            foreach($ancestros as $ancestro){
-                DB::table('especie_bloque')->insert([
-                    'id_especie' => $id,
-                    'id_bloque' => $ancestro->id_bloque,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-            }
-
-
+            $this->vincularAncestros($request, $id);
         }catch(Exception $e){
             dd($e);
 
@@ -91,6 +108,22 @@ class EspecieController
 
         return redirect()->action([EspecieController::class, 'index'])
                 ->with('message', $flash);
+    }
+
+    public function vincularAncestros(Request $request, $id){
+        $bloquePadre = BloqueTaxonomico::findOrFail($request->id_bloque_padre);
+        $ancestros = $bloquePadre->getAncestors();
+
+        foreach($ancestros as $ancestro){
+            $values = [
+                'id_especie' => $id,
+                'id_bloque' => $ancestro->id_bloque,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+
+            DB::table('especie_bloque')->insert($values);
+        }
     }
     
     // Retornan UI

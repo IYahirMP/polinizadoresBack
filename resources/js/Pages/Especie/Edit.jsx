@@ -9,7 +9,6 @@ const Edit = ({especie, padre}) => {
 
     const [bloquesPadreOptions, setBloquesPadreOptions] = useState([]); // Options for autocomplete
     const [loading, setLoading] = useState(false); // Loading state
-    const autoCompleteRef = useRef(null);
     const [padreColocado, setPadreColocado] = useState(false);
 
     // console.log(especie);
@@ -37,7 +36,7 @@ const Edit = ({especie, padre}) => {
         if (value.length > 0 && value != padre.nombre) {
             setData('id_bloque_padre', '');
             setLoading(true);
-            fetch(`/bloquetaxonomico/search/${value}?tipo='genero'`) // Replace with your API endpoint
+            fetch(`/bloquetaxonomico/search/${value}?tipo=genero`) // Replace with your API endpoint
                 .then((response) => response.json())
                 .then((data) => {
                     setBloquesPadreOptions(data); // Update options with API response
@@ -115,7 +114,7 @@ const Edit = ({especie, padre}) => {
                             fullWidth
                             options={bloquesPadreOptions} // State to store fetched options
                             value={padreColocado ? bloquesPadreOptions.find(option => option.id_bloque === data.id_bloque_padre) || null : padre}
-                            getOptionLabel={(option) => option.nombre || ""}
+                            getOptionLabel={(option) => `${option.nombre}: ${option.id_bloque}` || ""}
                             isOptionEqualToValue={(option, value) => option.id_bloque === value.id_bloque}
                             onChange={(event, newValue) => {
                                 setData('id_bloque_padre', newValue ? newValue.id_bloque : '');
@@ -128,7 +127,7 @@ const Edit = ({especie, padre}) => {
                                     {...params}
                                     label="Taxón superior"
                                     error={!!errors.id_bloque_padre}
-                                    helperText={errors.id_bloque_padre}
+                                     helperText={"Es necesario incluir este campo"}
                                     InputProps={{
                                         ...params.InputProps,
                                         endAdornment: (
@@ -138,7 +137,6 @@ const Edit = ({especie, padre}) => {
                                             </>
                                         ),
                                     }}
-                                    ref = {autoCompleteRef}
                                 />
                             )}
                             loading={loading} // Shows loading spinner while fetching
@@ -162,5 +160,5 @@ const Edit = ({especie, padre}) => {
     );
 };
 
-Edit.layout = (page) => <Layout children={page} title="Crear especie" />;
+Edit.layout = (page) => <Layout children={page} title="Editar especie" />;
 export default Edit;

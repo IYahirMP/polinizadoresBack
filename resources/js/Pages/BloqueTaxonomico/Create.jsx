@@ -129,7 +129,7 @@ const Create = () => {
                                         {...params}
                                         label="Taxón superior"
                                         error={!!errors.id_bloque_padre}
-                                        helperText={errors.id_bloque_padre}
+                                         helperText={"Es necesario incluir este campo"}
                                         InputProps={{
                                             ...params.InputProps,
                                             endAdornment: (

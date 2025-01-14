@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BloqueTaxonomico;
+use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
@@ -70,6 +71,12 @@ class BloqueTaxonomicoController extends Controller
 
     public function store(Request $request)
     {
+        $flash = array(
+            "action" => 'create',
+            "status" => 'ok',
+            'text' => 'El taxón se creó correctamente',
+        );
+
         $request->validate([
             'tipo_bloque' => 'required|string|max:255',
             'nombre' => 'required|string|max:255',
@@ -77,12 +84,27 @@ class BloqueTaxonomicoController extends Controller
             'id_bloque_padre' => 'nullable|exists:bloque_taxonomico,id_bloque',
         ]);
 
-        BloqueTaxonomico::create($request->all());
-        return redirect()->route('bloquetaxonomico.index')->with('success', 'Bloque created successfully!');
+        try{
+            BloqueTaxonomico::create($request->all());
+        }catch(Exception $e){
+            $flash['status'] = 'bad';
+            $flash["text"] = 'No se pudo crear el taxón';
+
+            return redirect()->action([BloqueTaxonomicoController::class, 'index'])
+                ->with('message', $flash);
+        }
+        return redirect()->action([BloqueTaxonomicoController::class, 'index'])
+                ->with('message', $flash);
     }
 
     public function update(Request $request, $bloque)
     {
+        $flash = array(
+            "action" => 'update',
+            "status" => 'ok',
+            'text' => 'El taxón se actualizó correctamente',
+        );
+
         $request->validate([
             'tipo_bloque' => 'required|string|max:255',
             'nombre' => 'required|string|max:255',
@@ -90,16 +112,41 @@ class BloqueTaxonomicoController extends Controller
             'id_bloque_padre' => 'nullable|exists:bloque_taxonomico,id_bloque',
         ]);
 
-        $bloque = BloqueTaxonomico::findOrFail($bloque);
+        try{
+            $bloque = BloqueTaxonomico::findOrFail($bloque);
+            $bloque->update($request->all());
+        }catch(Exception $e){
+            $flash['status'] = 'bad';
+            $flash["text"] = 'No se pudo modificar el taxón';
 
-        $bloque->update($request->all());
-        return redirect()->route('bloquetaxonomico.index')->with('success', 'Bloque updated successfully!');
+            return redirect()->action([BloqueTaxonomicoController::class, 'index'])
+                ->with('message', $flash);
+        }
+        
+        return redirect()->action([BloqueTaxonomicoController::class, 'index'])
+                ->with('message', $flash);
     }
 
     public function destroy($bloque)
     {
-        $destroyed = BloqueTaxonomico::destroy($bloque);
-        return redirect()->route('bloquetaxonomico.index')->with('success', 'Bloque deleted successfully!');
+        $flash = array(
+            "action" => 'destroy',
+            "status" => 'ok',
+            'text' => 'El taxón se eliminó correctamente',
+        );
+
+        try{
+            $destroyed = BloqueTaxonomico::destroy($bloque);
+        }catch(Exception $e){
+            $flash['status'] = 'bad';
+            $flash["text"] = 'No se pudo eliminar el taxón';
+
+            return redirect()->action([BloqueTaxonomicoController::class, 'index'])
+                ->with('message', $flash);
+        }
+
+        return redirect()->action([BloqueTaxonomicoController::class, 'index'])
+                ->with('message', $flash);
     }
 
     public function search(Request $request, $term)

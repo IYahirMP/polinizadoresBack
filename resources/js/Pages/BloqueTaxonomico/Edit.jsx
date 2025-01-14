@@ -141,7 +141,7 @@ const Edit = ({bloque, padre}) => {
                                 fullWidth
                                 options={bloquesPadreOptions} // State to store fetched options
                                 value={padreColocado ? bloquesPadreOptions.find(option => option.id_bloque === data.id_bloque_padre) || null : padre}
-                                getOptionLabel={(option) => option.nombre || ""}
+                                getOptionLabel={(option) => `${option.nombre}: ${option.id_bloque}` || ""}
                                 isOptionEqualToValue={(option, value) => option.id_bloque === value.id_bloque}
                                 onChange={(event, newValue) => {
                                     setData('id_bloque_padre', newValue ? newValue.id_bloque : '');
@@ -154,7 +154,7 @@ const Edit = ({bloque, padre}) => {
                                         {...params}
                                         label="Taxón superior"
                                         error={!!errors.id_bloque_padre}
-                                        helperText={errors.id_bloque_padre}
+                                         helperText={"Es necesario incluir este campo"}
                                         InputProps={{
                                             ...params.InputProps,
                                             endAdornment: (

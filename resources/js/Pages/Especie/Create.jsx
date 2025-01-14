@@ -1,9 +1,8 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import { CircularProgress } from '@mui/material';
-import { Link, useForm, router } from '@inertiajs/react';
+import { Link, useForm } from '@inertiajs/react';
 import { Box, Button, Grid, MenuItem, TextField, Typography, Autocomplete } from '@mui/material';
 import Layout from '../Layout';
-import axios from 'axios';
 
 const Create = () => {
 
@@ -11,12 +10,11 @@ const Create = () => {
     const [loading, setLoading] = useState(false); // Loading state
 
     const handleInputChange = (event, value) => {
-        // setInputValue(value);
-        setData('id_bloque_padre', "");
-        // Trigger API fetch only if input value changes
-        if (value.length > 0) { // Start fetching after 2 characters
+
+        if (value.length > 0) {
+            setData('id_bloque_padre', '');
             setLoading(true);
-            fetch(`/bloquetaxonomico/search/${value}?tipo='genero'`) // Replace with your API endpoint
+            fetch(`/bloquetaxonomico/search/${value}?tipo=genero`) // Replace with your API endpoint
                 .then((response) => response.json())
                 .then((data) => {
                     setBloquesPadreOptions(data); // Update options with API response
@@ -30,22 +28,22 @@ const Create = () => {
         }
     };
 
-    const { data, setData, patch, errors, processing } = useForm({
+    const { data, setData, post, errors, processing } = useForm({
         nombre: '',
         nombre_comun: '',
-        // descripcion: bloque.descripcion,
-        id_bloque_padre: '', // nullable, so initially empty
+        descripcion: '',
+        id_bloque_padre: '',
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        patch(route('especie.update', especie.id_especie));
+        post(route('especie.store'));
     };
 
     return (
         <Box p={3}>
             <Typography variant="h4" gutterBottom>
-                Editar especie
+                Crear especie
             </Typography>
             <form onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
@@ -75,7 +73,6 @@ const Create = () => {
                         />
                     </Grid>
 
-                    {/* Descripcion
                     <Grid item xs={12}>
                         <TextField
                             fullWidth
@@ -87,25 +84,27 @@ const Create = () => {
                             multiline
                             rows={4}
                         />
-                    </Grid> */}
+                    </Grid>
 
                     {/* ID Bloque Padre */}
                     <Grid item xs={12} sm={6}>
                         <Autocomplete
                             fullWidth
                             options={bloquesPadreOptions} // State to store fetched options
-                            getOptionLabel={(option) => option.nombre || ""}
-                            value={bloquesPadreOptions.find((option) => option.id_bloque === data.id_bloque_padre) || null}
-                            onChange={(event, newValue) => setData('id_bloque_padre', newValue ? newValue.id_bloque : '')}
+                            getOptionLabel={(option) => `${option.nombre}: ${option.id_bloque}` || ""}
+                            value={ bloquesPadreOptions.find(option => option.id_bloque === data.id_bloque_padre) || null}
+                            isOptionEqualToValue={(option, value) => option.id_bloque === value.id_bloque}
+                            onChange={(event, newValue) => {
+                                setData('id_bloque_padre', newValue ? newValue.id_bloque : '');
+                            }}
                             onInputChange={handleInputChange} // Handles keystroke changes
-                            // inputValue={inputValue}
                             freeSolo
                             renderInput={(params) => (
                                 <TextField
                                     {...params}
                                     label="Taxón superior"
                                     error={!!errors.id_bloque_padre}
-                                    helperText={errors.id_bloque_padre}
+                                     helperText={"Es necesario incluir este campo"}
                                     InputProps={{
                                         ...params.InputProps,
                                         endAdornment: (
@@ -117,7 +116,6 @@ const Create = () => {
                                     }}
                                 />
                             )}
-                            isOptionEqualToValue={(option, value) => option.id_bloque === value.id_bloque}
                             loading={loading} // Shows loading spinner while fetching
                             noOptionsText="No se encontraron resultados"
                         />
