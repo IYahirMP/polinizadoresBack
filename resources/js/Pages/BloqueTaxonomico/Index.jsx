@@ -6,7 +6,7 @@ import { Box, Button, ThemeProvider, Typography} from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 import Layout from '../Layout';
 import InfoIcon from '@mui/icons-material/Info';
-import { FLASH_OPTIONS } from '../Especie/FlashOptions';
+import { FLASH_OPTIONS } from '../FlashOptions';
 
 const Index = ({bloques, flash}) => {
     const handleDelete = (id) => {
