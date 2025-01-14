@@ -54,4 +54,16 @@ class BloqueTaxonomico extends Model
         }
         return $descendientesDirectos;
     }
+
+    public function getAncestors(){
+        $ancestors = [];
+        $current = $this;
+
+        while ($current){
+            $ancestors[] = $current;
+            $current = $current->getParent();
+        }
+
+        return collect($ancestors)->reverse();
+    }
 }

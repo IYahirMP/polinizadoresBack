@@ -24,13 +24,13 @@ class DatabaseSeeder extends Seeder
 
         // Especie homo sapiens
         $taxonomy = [
-            ['nombre' => 'Eukaryota', 'tipo_bloque' => 'Dominio', 'id_bloque_padre' => null],
-            ['nombre' => 'Animalia', 'tipo_bloque' => 'Reino', 'id_bloque_padre' => 1],
-            ['nombre' => 'Chordata', 'tipo_bloque' => 'Filo', 'id_bloque_padre' => 2],
-            ['nombre' => 'Mammalia', 'tipo_bloque' => 'Clase', 'id_bloque_padre' => 3],
-            ['nombre' => 'Primates', 'tipo_bloque' => 'Órden', 'id_bloque_padre' => 4],
-            ['nombre' => 'Hominidae', 'tipo_bloque' => 'Familia', 'id_bloque_padre' => 5],
-            ['nombre' => 'Homo', 'tipo_bloque' => 'Género', 'id_bloque_padre' => 6],
+            ['nombre' => 'Eukaryota', 'tipo_bloque' => 'Dominio', 'id_bloque_padre' => null, 'descripcion' => "Una descripcion"],
+            ['nombre' => 'Animalia', 'tipo_bloque' => 'Reino', 'id_bloque_padre' => 1, 'descripcion' => "Una descripcion"],
+            ['nombre' => 'Chordata', 'tipo_bloque' => 'Filo', 'id_bloque_padre' => 2, 'descripcion' => "Una descripcion"],
+            ['nombre' => 'Mammalia', 'tipo_bloque' => 'Clase', 'id_bloque_padre' => 3, 'descripcion' => "Una descripcion"],
+            ['nombre' => 'Primates', 'tipo_bloque' => 'Órden', 'id_bloque_padre' => 4, 'descripcion' => "Una descripcion"],
+            ['nombre' => 'Hominidae', 'tipo_bloque' => 'Familia', 'id_bloque_padre' => 5, 'descripcion' => "Una descripcion"],
+            ['nombre' => 'Homo', 'tipo_bloque' => 'Género', 'id_bloque_padre' => 6, 'descripcion' => "Una descripcion"],
         ];
 
         // Insert data into the database
@@ -41,12 +41,14 @@ class DatabaseSeeder extends Seeder
                 'id_bloque_padre' => $taxon['id_bloque_padre'],
                 'created_at' => now(),
                 'updated_at' => now(),
+                'descripcion' => $taxon['descripcion'],
             ]);
         }
 
         $speciesId = DB::table('especie')->insertGetId([
             'nombre' => 'Homo sapiens',        // Scientific name
             'nombre_comun' => 'Human',         // Common name
+            'descripcion' => 'Seres humanos',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

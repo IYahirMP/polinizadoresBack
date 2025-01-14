@@ -19,6 +19,7 @@ class EspecieFactory extends Factory
         return [
             'nombre_comun' => $this->faker->name(),
             'nombre' => $this->faker->name(),
+            'descripcion' => $this->faker->text(),
         ];
     }
 }

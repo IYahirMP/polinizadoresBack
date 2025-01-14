@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('id_especie');
             $table->string('nombre_comun')->nullable();
             $table->string('nombre');
+            $table->text('descripcion');
             $table->timestamps();
         });
     }

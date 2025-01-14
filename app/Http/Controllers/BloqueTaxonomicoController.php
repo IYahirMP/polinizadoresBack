@@ -9,6 +9,16 @@ use Illuminate\Support\Facades\DB;
 
 class BloqueTaxonomicoController extends Controller
 {
+    private const taxones = [
+        // taxon en la api => taxon como está registrado en lab ase de datos
+        "dominio" => 'Dominio',
+        "reino" => 'Reino',
+        "filo" => 'Filo',
+        "clase" => 'Clase',
+        "orden" => 'Órden',
+        "familia" => 'Familia',
+        "genero" => 'Género'
+    ];
 
     // Metodos que retornan vistas de Inertia
     public function index()
@@ -92,12 +102,25 @@ class BloqueTaxonomicoController extends Controller
         return redirect()->route('bloquetaxonomico.index')->with('success', 'Bloque deleted successfully!');
     }
 
-    public function search($term)
+    public function search(Request $request, $term)
     {
-        $bloques = BloqueTaxonomico::where('nombre', 'like', "%{$term}%")
-            ->limit(10) // Limit results to reduce load
-            ->get();
+        $bloques = BloqueTaxonomico::where('nombre', 'like', "%{$term}%");
+
+        foreach(BloqueTaxonomicoController::taxones as $taxon => $taxonbd){
+            if ($request['tipo'] == $taxon){
+                $bloques = $bloques->where('tipo_bloque', '=', $taxonbd);
+                break;
+            }
+        }
+
+        $bloques = $bloques->limit(10)->get();
 
         return response()->json($bloques);
+    }
+
+    public function ancestors($id){
+        $bloque = BloqueTaxonomico::findOrFail($id);
+        $ancestros = $bloque->getAncestors();
+        return response()->json($ancestros);
     }
 }

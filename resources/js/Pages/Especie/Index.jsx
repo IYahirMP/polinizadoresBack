@@ -6,6 +6,7 @@ import { Box, Button, Typography} from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 import Layout from '../Layout';
 import InfoIcon from '@mui/icons-material/Info';
+import { FLASH_OPTIONS } from './FlashOptions';
 
 const Index = ({especies, flash}) => {
     const handleDelete = (id) => {
@@ -77,16 +78,35 @@ const Index = ({especies, flash}) => {
         }
       }, [rows, columns]);
 
+    // Los mensajes Flash sirven cuando se redirecciona desde una acción diferente.
+    // Ejemplo: Eliminar un registro. Al finalizar, se envía un mensaje flash diciendo si fue exitoso o no.
+    let currentFlash = '';
+    if (flash.message != undefined){
+        let accion = flash.message.action;
+        let estado = flash.message.status;
+
+        currentFlash = FLASH_OPTIONS[accion][estado];
+        // console.log(currentFlash);
+    }
+
     return (
         <Box className={"p-10"}>
-            <Typography variant="h4" gutterBottom>
-                Especies
-            </Typography>
-            {flash != undefined && flash.success && (
-                <Typography variant="body1" color="success.main" gutterBottom>
-                    {flash.success}
+            <Box className="">
+                <Typography variant="h4" gutterBottom>
+                    Especies
                 </Typography>
-            )}
+                {flash != undefined && flash.message && (
+                    <div className="mb-5">
+                        <Typography variant="h5" color={currentFlash.color} gutterBottom>
+                            {`${currentFlash.header}: ${flash.message.text}`}
+                        </Typography>
+                        <Typography variant="body1" color={currentFlash.color} gutterBottom>
+                            {currentFlash.message}
+                        </Typography>
+                    </div>
+                )}
+            </Box>
+            
             <Box mb={2}>
                 <Button
                     variant="contained"

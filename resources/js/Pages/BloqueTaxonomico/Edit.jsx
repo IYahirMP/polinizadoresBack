@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import { CircularProgress } from '@mui/material';
 import { Link, useForm, router } from '@inertiajs/react';
 import { Box, Button, Grid, MenuItem, TextField, Typography, Autocomplete } from '@mui/material';
@@ -7,20 +7,23 @@ import axios from 'axios';
 
 const Edit = ({bloque, padre}) => {
 
+    // console.log(padre);
+
     const [bloquesPadreOptions, setBloquesPadreOptions] = useState([]); // Options for autocomplete
     const [loading, setLoading] = useState(false); // Loading state
-    const [inputValue, setInputValue] = useState("");
-
+    const autoCompleteRef = useRef(null);
+    const [padreColocado, setPadreColocado] = useState(false);
+    
     useEffect(() => {
         const initialFetch = async () => {
             if (padre.nombre) { // Check if padre has a name (indicates initial value)
                 setLoading(true);
                 try {
                     const response = await axios.get(`/bloquetaxonomico/search/${padre.nombre}`); 
-                    console.log(response.data);
+                    // console.log(response.data);
                     setBloquesPadreOptions(response.data);
                     setData('id_bloque_padre', bloque.id_bloque_padre)
-                    console.log(bloquesPadreOptions)
+                    // console.log(bloquesPadreOptions)
             } catch (error) {
               console.error('Error fetching initial bloque padre options:', error);
             } finally {
@@ -31,15 +34,26 @@ const Edit = ({bloque, padre}) => {
         initialFetch();
       }, [padre]);
 
-    const handleInputChange = (event, value) => {
+    const handleInputChange = (event, value, tipo) => {
+        const taxonesSuperiores = {
+            "Dominio":"",
+            "Reino":"dominio",
+            "Filo":"reino",
+            "Clase":"filo",
+            "Órden":"clase",
+            "Familia":"orden",
+            "Género":"familia",
+            }
+
         // setInputValue(value);
         setData('id_bloque_padre', "");
         // Trigger API fetch only if input value changes
-        if (value.length > 0) { // Start fetching after 2 characters
+        if (value.length > 0 && tipo != 'Dominio') { // Start fetching after 2 characters
             setLoading(true);
-            fetch(`/bloquetaxonomico/search/${value}`) // Replace with your API endpoint
+            fetch(`/bloquetaxonomico/search/${value}?tipo=${taxonesSuperiores[tipo]}`) // Replace with your API endpoint
                 .then((response) => response.json())
                 .then((data) => {
+                    console.log(data);
                     setBloquesPadreOptions(data); // Update options with API response
                     setLoading(false);
                 })
@@ -85,7 +99,6 @@ const Edit = ({bloque, padre}) => {
                             error={!!errors.tipo_bloque}
                             helperText={errors.tipo_bloque}
                         >
-                            <MenuItem value="">Ninguno</MenuItem>
                             { tiposDeBloque != undefined && tiposDeBloque.map((option) => (
                                 <MenuItem key={option} value={option}>
                                     {option}
@@ -122,38 +135,43 @@ const Edit = ({bloque, padre}) => {
                     </Grid>
 
                     {/* ID Bloque Padre */}
-                    <Grid item xs={12} sm={6}>
-                        <Autocomplete
-                            fullWidth
-                            options={bloquesPadreOptions} // State to store fetched options
-                            getOptionLabel={(option) => option.nombre || ""}
-                            value={bloquesPadreOptions.find((option) => option.id_bloque === data.id_bloque_padre) || null}
-                            onChange={(event, newValue) => setData('id_bloque_padre', newValue ? newValue.id_bloque : '')}
-                            onInputChange={handleInputChange} // Handles keystroke changes
-                            // inputValue={inputValue}
-                            freeSolo
-                            renderInput={(params) => (
-                                <TextField
-                                    {...params}
-                                    label="Taxón superior"
-                                    error={!!errors.id_bloque_padre}
-                                    helperText={errors.id_bloque_padre}
-                                    InputProps={{
-                                        ...params.InputProps,
-                                        endAdornment: (
-                                            <>
-                                                {loading && <CircularProgress color="inherit" size={20} />}
-                                                {params.InputProps.endAdornment}
-                                            </>
-                                        ),
-                                    }}
-                                />
-                            )}
-                            isOptionEqualToValue={(option, value) => option.id_bloque === value.id_bloque}
-                            loading={loading} // Shows loading spinner while fetching
-                            noOptionsText="No se encontraron resultados"
-                        />
-                    </Grid>
+                    {data.tipo_bloque != 'Dominio' && (
+                        <Grid item xs={12} sm={6}>
+                            <Autocomplete
+                                fullWidth
+                                options={bloquesPadreOptions} // State to store fetched options
+                                value={padreColocado ? bloquesPadreOptions.find(option => option.id_bloque === data.id_bloque_padre) || null : padre}
+                                getOptionLabel={(option) => option.nombre || ""}
+                                isOptionEqualToValue={(option, value) => option.id_bloque === value.id_bloque}
+                                onChange={(event, newValue) => {
+                                    setData('id_bloque_padre', newValue ? newValue.id_bloque : '');
+                                    setPadreColocado(true); // Set flag to avoid re-rendering issues
+                                }}
+                                onInputChange={(event, value) => handleInputChange(event, value, data.tipo_bloque)} // Handles keystroke changes
+                                freeSolo
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Taxón superior"
+                                        error={!!errors.id_bloque_padre}
+                                        helperText={errors.id_bloque_padre}
+                                        InputProps={{
+                                            ...params.InputProps,
+                                            endAdornment: (
+                                                <>
+                                                    {loading && <CircularProgress color="inherit" size={20} />}
+                                                    {params.InputProps.endAdornment}
+                                                </>
+                                            ),
+                                        }}
+                                        ref = {autoCompleteRef}
+                                    />
+                                )}
+                                loading={loading} // Shows loading spinner while fetching
+                                noOptionsText="No se encontraron resultados"
+                            />
+                        </Grid>
+                    )}
                 </Grid>
 
                 {/* Submit Button */}

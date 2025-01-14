@@ -69,6 +69,15 @@ const Show = ({ especie, jerarquia}) => {
           </Box>
           <Divider />
 
+          <Box className="p-3 pl-16 flex flex-col justify-start md:flex-row">
+            <DataBox
+              titulo="Descripcion:"
+              info={especie.descripcion}
+            />
+          </Box>
+
+          <Divider />
+
           <Box className="p-3 flex flex-col justify-center md:flex-row md:justify-around">
             <DataBox
               titulo="Creado:"

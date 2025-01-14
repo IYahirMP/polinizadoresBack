@@ -15,6 +15,12 @@ class Especie extends Model
     protected $keyType = 'integer';
     public $timestamps = true;
 
+    protected $fillable = [
+        'nombre',
+        'nombre_comun',
+        'descripcion'
+    ];
+
     public function getOrderedHierarchy()
     {
         $jerarquia = DB::table('especie')
@@ -48,5 +54,13 @@ class Especie extends Model
 
         // dd(json_encode($jerarquiaOrdenada));
         return $jerarquiaOrdenada;
+    }
+
+    public function getParent(){
+        return DB::table('especie_bloque')
+            ->join('bloque_taxonomico','especie_bloque.id_bloque','=','bloque_taxonomico.id_bloque')
+            ->where('especie_bloque.id_especie','=',$this->id_especie)
+            ->where('bloque_taxonomico.tipo_bloque','=','Género')
+            ->get()->first();
     }
 }
