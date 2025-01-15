@@ -212,7 +212,7 @@ const Create = () => {
               className="place-self-center"
             />
           ) : (
-            <Typography color="textSecondary">No image cropped yet</Typography>
+            <Typography color="textSecondary">Aún no se ha cargado una imagen</Typography>
           )}
         </MuiGrid>
       </MuiGrid>
