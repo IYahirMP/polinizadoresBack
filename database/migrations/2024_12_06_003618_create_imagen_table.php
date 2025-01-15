@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('id_especie')->constrained('especie', 'id_especie')
                 ->cascadeOnDelete()->cascadeOnUpdate();
             $table->string("url");
+            $table->string('ruta');
+            $table->string('descripcion')->nullable();
             $table->timestamps();
         });
     }
