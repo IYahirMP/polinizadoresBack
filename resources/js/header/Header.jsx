@@ -11,22 +11,29 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useTheme } from '@mui/material';
-import {Link} from "@inertiajs/react";
+import {Link, usePage} from "@inertiajs/react";
+import DropdownMenu from '@/Components/DropDownMenu';
+import ADMIN_PAGES from './AdminPages';
 
-const pages = [
-  {
-    pagina:'Galería',
-    link:'galeria'
-  },
-  /*{
-    pagina:'Iniciar sesión',
-    link:'login'
-  }*/
-];
-
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Header() {
+  const {auth} = usePage().props;
+
+  console.log(auth);
+
+  const pages = [
+    {
+      pagina:'Galería',
+      link: route('galeria.index'),
+      method: 'get'
+    },
+    {
+      pagina: !auth.user ? 'Iniciar sesión': "Cerrar sesión",
+      link: !auth.user ? route('login') : route('logout'),
+      method: !auth.user ? 'get' : 'post'
+    }
+  ];
+
   const theme = useTheme();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -110,28 +117,10 @@ function Header() {
     },
   }
 
-  const menuMD = {
-    sx: { mt: '45px' },
-    id: "menu-appbar",
-    anchorEl: anchorElUser,
-    anchorOrigin: {
-      vertical: 'top',
-      horizontal: 'right',
-    },
-    keepMounted: true,
-    transformOrigin: {
-      vertical: 'top',
-      horizontal: 'right',
-    },
-    open: Boolean(anchorElUser),
-    onClose: handleCloseUserMenu,
-    color: 'black',
-  }
-
   return (
     <>
     <AppBar position="static" sx={theme.menu}>
-      <Container maxWidth="xl">
+      <Container maxWidth="xxl">
         <Toolbar disableGutters> 
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, color: 'black' }} />
           <Typography {...logoPropsMd}> BeeSmart Analytics </Typography>
@@ -142,7 +131,7 @@ function Header() {
             <Menu {...menuProps}>
               {pages.map((page) => (
                 <MenuItem key={page.pagina}>
-                  <Link to={`/${page.link}`}><Typography textAlign="center" color={'black'}>{page.pagina}</Typography></Link>
+                  <Link href={page.link} method={page.method}><Typography textAlign="center" color={'black'}>{page.pagina}</Typography></Link>
                 </MenuItem>
               ))}
             </Menu>
@@ -151,31 +140,28 @@ function Header() {
           <Typography {...logoXs}>LOGO</Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', color: 'black' }, flexDirection:{md:'row-reverse'}, paddingRight:{md:'3vw'}  }}>
             {pages.map((page) => (
-              <Button
-                key={page.pagina}
-                sx={{ my: 2, display: 'block', color:'black', }}
-              >
-                <Link to={`/${page.link}`}>{page.pagina}</Link>
-              </Button>
+              
+              <Link href={page.link} method={page.method}>
+                <Button
+                  key={page.pagina}
+                  sx={{ my: 2, display: 'block', color:'black', }}
+                >
+                  {page.pagina}
+                </Button>
+              </Link>
             ))}
           </Box>
-          {/*<Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu {...menuMD}>
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>*/}
         </Toolbar>
       </Container>
     </AppBar>
+
+      {(auth.user) && (
+          <Container maxWidth="xxl">
+            <Toolbar disableGutters>
+              {ADMIN_PAGES.map((tabla) => <DropdownMenu className="mx-10" pages={tabla.paginas} etiqueta={tabla.etiqueta}/>)}
+            </Toolbar>
+          </Container>
+        )}
     </>
   );
 }

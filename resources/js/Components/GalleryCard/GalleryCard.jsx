@@ -29,7 +29,7 @@ export default function GalleryCard({ id, title, description, img }) {
                 </Box>
             </CardContent>
             <CardActions>
-                <Button size="small"><Link to={`/galeria/${String(id)}`}>Ver más</Link></Button>
+                <Button size="small"><Link href={route('galeria.show', id)}>Ver más</Link></Button>
             </CardActions>
         </Card>
     );
