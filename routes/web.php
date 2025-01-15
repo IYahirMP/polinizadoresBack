@@ -41,6 +41,8 @@ Route::get('/bloquetaxonomico/ancestors/{id}', [BloqueTaxonomicoController::clas
 
 Route::resource('especiebloque', controller: EspecieBloqueController::class);
 Route::resource('especie', controller: EspecieController::class);
+Route::get('/especie/search/{term}', [EspecieController::class, 'search'])->name('especie.search');
+
 Route::resource('imagen', controller: ImagenController::class);
 Route::resource('lugar', controller: LugarController::class);
 Route::resource('observaciones', controller: ObservacionesController::class);

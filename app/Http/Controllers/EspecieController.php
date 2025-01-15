@@ -37,14 +37,10 @@ class EspecieController
             $flash['status'] = 'bad';
             $flash["text"] = 'No se pudo crear la especie';
             DB::rollBack();
-
+        }finally{
             return redirect()->action([EspecieController::class, 'index'])
                 ->with('message', $flash);
-                    
         }
-
-        return redirect()->action([EspecieController::class, 'index'])
-                ->with('message', $flash);
     }
 
     
@@ -61,14 +57,10 @@ class EspecieController
         }catch(Exception $e){
             $flash['status'] = 'bad';
             $flash["text"] = 'No se pudo eliminar la especie';
-
+        }finally{
             return redirect()->action([EspecieController::class, 'index'])
                 ->with('message', $flash);
-                    
         }
-
-        return redirect()->action([EspecieController::class, 'index'])
-                ->with('message', $flash);
     }
 
     public function update(Request $request, $id)
@@ -98,16 +90,12 @@ class EspecieController
             DB::table('especie_bloque')->where('id_especie','=', $id)->delete();
             $this->vincularAncestros($request, $id);
         }catch(Exception $e){
-            dd($e);
-
             $flash['status'] = 'bad';
             $flash['text'] = 'La especie no pudo actualizarse.';
+        }finally{
             return redirect()->action([EspecieController::class, 'index'])
                 ->with('message', $flash);
         }
-
-        return redirect()->action([EspecieController::class, 'index'])
-                ->with('message', $flash);
     }
 
     public function vincularAncestros(Request $request, $id){
@@ -160,5 +148,13 @@ class EspecieController
 
     public function create(){
         return Inertia::render("Especie/Create");
+    }
+
+    public function search($term)
+    {
+        $especies = Especie::where('nombre', 'like', "%{$term}%");
+        $especies = $especies->limit(10)->get();
+
+        return response()->json($especies);
     }
 }

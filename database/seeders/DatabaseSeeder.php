@@ -10,7 +10,9 @@ use App\Models\Especie;
 use App\Models\EspecieBloque;
 use App\Models\Observaciones;
 use App\Models\Imagen;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
@@ -99,11 +101,29 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
+        $imgTestFolder = Storage::files('public/speciesimages/test');
+        
+        $rutas = [];
+        foreach($imgTestFolder as $r){
+            $rutas[] = str_replace("public/speciesimages/", "", $r);
+        }
+    
         // Poblar la tabla 'Imagen'
+        $i = 0;
+        $faker = \Faker\Factory::create();
+
         foreach ($especies as $especie) {
             Imagen::factory()->create([
                 'id_especie' => $especie->id_especie,
+                'ruta' => $rutas[$i],
+                'url' => Storage::disk('imagenes')->url($rutas[$i]),
+                'descripcion' => $faker->text(160)
             ]);
+
+            $i++;
+            if ($i == count($rutas)){
+                $i = 0;
+            }
         }
     }
 }

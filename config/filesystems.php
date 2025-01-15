@@ -56,6 +56,13 @@ return [
             'throw' => false,
         ],
 
+        'imagenes' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/speciesimages'),
+            'url' => env('APP_URL').'/imagenes',
+            'visibility' => 'public',
+        ],
+
     ],
 
     /*
@@ -71,7 +78,7 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
-        public_path('species') => storage_path('app/public/speciesimages')
+        public_path('imagenes') => storage_path('app/public/speciesimages')
     ],
 
 ];

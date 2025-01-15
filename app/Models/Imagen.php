@@ -9,4 +9,13 @@ class Imagen extends Model
 {
     use HasFactory;
     protected $table = 'imagen';
+
+    protected $primaryKey = 'id_imagen';
+
+    protected $fillable = [
+        'id_especie',
+        'ruta',
+        'url',
+        'descripcion',
+    ];
 }

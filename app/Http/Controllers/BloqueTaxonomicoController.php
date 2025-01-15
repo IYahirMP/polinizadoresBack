@@ -89,12 +89,10 @@ class BloqueTaxonomicoController extends Controller
         }catch(Exception $e){
             $flash['status'] = 'bad';
             $flash["text"] = 'No se pudo crear el taxón';
-
+        }finally{
             return redirect()->action([BloqueTaxonomicoController::class, 'index'])
                 ->with('message', $flash);
         }
-        return redirect()->action([BloqueTaxonomicoController::class, 'index'])
-                ->with('message', $flash);
     }
 
     public function update(Request $request, $bloque)
@@ -118,13 +116,10 @@ class BloqueTaxonomicoController extends Controller
         }catch(Exception $e){
             $flash['status'] = 'bad';
             $flash["text"] = 'No se pudo modificar el taxón';
-
+        } finally {
             return redirect()->action([BloqueTaxonomicoController::class, 'index'])
                 ->with('message', $flash);
         }
-        
-        return redirect()->action([BloqueTaxonomicoController::class, 'index'])
-                ->with('message', $flash);
     }
 
     public function destroy($bloque)
@@ -140,13 +135,10 @@ class BloqueTaxonomicoController extends Controller
         }catch(Exception $e){
             $flash['status'] = 'bad';
             $flash["text"] = 'No se pudo eliminar el taxón';
-
+        }finally{
             return redirect()->action([BloqueTaxonomicoController::class, 'index'])
                 ->with('message', $flash);
         }
-
-        return redirect()->action([BloqueTaxonomicoController::class, 'index'])
-                ->with('message', $flash);
     }
 
     public function search(Request $request, $term)
