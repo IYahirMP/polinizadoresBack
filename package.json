@@ -29,7 +29,6 @@
         "@mui/x-data-grid": "^7.23.5",
         "@mui/x-tree-view": "^7.13.0",
         "i": "^0.3.7",
-        "react-easy-crop": "^5.2.0",
-        "vercel": "^36.0.0"
+        "react-easy-crop": "^5.2.0"
     }
 }
