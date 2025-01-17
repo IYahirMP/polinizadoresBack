@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('tiempo', function (Blueprint $table) {
             $table->id('id_tiempo');
-            $table->integer('año');
-            $table->integer('mes');
-            $table->integer('semana');
-            $table->integer('dia');
-            $table->timestamp('timestamp');
-            $table->timestamps();
+            $table->unsignedSmallInteger('año');
+            $table->unsignedTinyInteger('mes');
+            $table->unsignedTinyInteger('semana');
+            $table->unsignedTinyInteger('dia');
+            $table->unsignedTinyInteger('hora');
+            $table->unsignedTinyInteger('minuto');
         });
     }
 

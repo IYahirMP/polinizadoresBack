@@ -3,6 +3,7 @@ import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
 import { TreeItem, treeItemClasses } from '@mui/x-tree-view/TreeItem';
 import "./recursivetree.css";
 import { Link } from '@inertiajs/react';
+import { useState, useEffect } from 'react';
 
 
 /**
@@ -14,17 +15,17 @@ import { Link } from '@inertiajs/react';
  * @returns Una vista de árbol que contiene un TreeItem y los contenidos especificados.
  */
 const SubTree = ({ children, itemId, label }) => {
+
     return (
         <SimpleTreeView
             sx={
                 {backgroundColor:"white"}
             }
-            itemChildrenIndentation={'2.5rem'}
+            itemChildrenIndentation={visualViewport.width <= '500' ? '0rem' : '2.5rem'}
             defaultExpandedItems={['grid']} 
             expandedItems={[itemId]} 
             selectedItems={[itemId]}
             disableSelection={true}
-            
             >
             <TreeItem 
                 itemId={itemId}
@@ -39,7 +40,7 @@ const SubTree = ({ children, itemId, label }) => {
 };
 
 const Label = ({taxa, name, taxaId}) => {
-    console.log(taxaId);
+    // console.log(taxaId);
 
     let url = (taxa == "Especie") ? "especie.show" : "bloquetaxonomico.show";
 
@@ -77,6 +78,7 @@ const RecursiveTree = ({hierarchy, begin}) => {
             itemId={taxa}
             label={<Label taxa={taxa} name={name} taxaId={id}/>} 
             autoFocus
+            id={taxa}
             />;
     }
     
@@ -86,6 +88,7 @@ const RecursiveTree = ({hierarchy, begin}) => {
     return (
         <SubTree
             itemId={taxa}
+            id={taxa}
             label={<Label taxa={taxa} name={name} taxaId={id}/>}>
             <RecursiveTree hierarchy={hierarchy} begin={currentTaxaIndex + 1}/>
         </SubTree>

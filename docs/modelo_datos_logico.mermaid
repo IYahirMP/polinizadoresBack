@@ -1,0 +1,56 @@
+erDiagram
+    TIEMPO {
+        int id_tiempo
+        smallint anio
+        tinyint mes
+        tinyint semana
+        tinyint dia
+        tinyint hora
+        tinyint minuto
+    }
+    LUGAR {
+        int id_lugar
+        string enlace_maps
+        decimal altitud
+        decimal longitud
+        string nombre
+        string estado
+        string municipio
+        text referencias
+    }
+    ESPECIE {
+        int id_especie
+        string nombre_comun
+        string nombre
+        text descripcion
+    }
+    IMAGEN {
+        int id_imagen
+        int id_especie
+        string url
+        string ruta
+        string descripcion
+    }
+    BLOQUE_TAXONOMICO {
+        int id_bloque
+        string tipo_bloque
+        string nombre
+        text descripcion
+        int id_bloque_padre
+    }
+    OBSERVACION {
+        int id_observacion
+        int id_especie
+        int inicio_deteccion
+        int fin_deteccion
+        decimal duracion_deteccion
+        int id_lugar
+    }
+
+    %% Relaciones
+    ESPECIE ||--o{ IMAGEN : tiene
+    ESPECIE ||--o{ OBSERVACION : participa
+    OBSERVACION }o--|| TIEMPO : utiliza_inicio_y_fin
+    OBSERVACION }o--|| LUGAR : ocurre_en
+    BLOQUE_TAXONOMICO }o--o{ ESPECIE : clasifica
+    BLOQUE_TAXONOMICO ||--o| BLOQUE_TAXONOMICO : es_hijo_de

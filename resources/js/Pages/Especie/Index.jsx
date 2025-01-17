@@ -7,6 +7,7 @@ import { Delete, Edit } from '@mui/icons-material';
 import Layout from '../Layout';
 import InfoIcon from '@mui/icons-material/Info';
 import { FLASH_OPTIONS } from './FlashOptions';
+import Table from '@/Components/Table';
 
 const Index = ({especies, flash}) => {
     const handleDelete = (id) => {
@@ -24,7 +25,7 @@ const Index = ({especies, flash}) => {
             field: 'edit',
             maxWidth:"100",
             align:"center",
-            headerName: 'Edit',
+            headerName: 'Editar',
             renderCell: (params) => (
                 <Button
                 variant="contained"
@@ -38,7 +39,7 @@ const Index = ({especies, flash}) => {
             field: 'delete',
             maxWidth:"200",
             align:"center",
-            headerName: 'Delete',
+            headerName: 'Eliminar',
             renderCell: (params) => (
                 <Button
                     variant="contained"
@@ -117,20 +118,7 @@ const Index = ({especies, flash}) => {
                     Añadir nueva especie
                 </Button>
             </Box>
-            <div style={{height:'80vh'}}>
-                <DataGrid
-                        columns={columns}
-                        disableSelectionOnClick
-                        rows={rows}
-                        disableColumnResize={true}
-                        pageSizeOptions={[10, 20, 30]}
-                        initialState={{
-                            pagination:{
-                                paginationModel:{pageSize:10, page:0}
-                            }
-                        }}
-                    />
-            </div>
+            <Table columns={columns} rows={rows}/>
         </Box>
     );
 }

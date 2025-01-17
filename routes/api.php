@@ -1,8 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Models\Observation;
+use App\Http\Controllers\TiempoController;
 
 
+Route::apiResource(name: 'tiempo', controller: TiempoController::class);

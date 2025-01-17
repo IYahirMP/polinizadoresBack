@@ -21,3 +21,4 @@ yarn-error.log
 /.vscode
 
 .vercel
+resources/js/Pages/SpeciesDetail/pending/*

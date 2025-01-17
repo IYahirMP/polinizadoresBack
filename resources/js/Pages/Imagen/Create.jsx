@@ -218,7 +218,7 @@ const Create = () => {
       </MuiGrid>
 
       <Dialog open={openCropDialog} onClose={() => setOpenCropDialog(false)} maxWidth="md" fullWidth>
-        <DialogTitle>Crop Image</DialogTitle>
+        <DialogTitle>Recortar imagen</DialogTitle>
         <DialogContent>
           <Box position="relative" width="100%" height={400}>
             {imagePreview && (
@@ -240,10 +240,10 @@ const Create = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpenCropDialog(false)} color="secondary">
-            Cancel
+            Cancelar
           </Button>
           <Button onClick={handleSave} variant="contained" color="primary" disabled={processing}>
-            Save
+            Guardar
           </Button>
         </DialogActions>
       </Dialog>

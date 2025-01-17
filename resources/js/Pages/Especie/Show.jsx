@@ -4,7 +4,7 @@ import { ArrowBack } from '@mui/icons-material';
 import EditIcon from '@mui/icons-material/Edit';
 import { Link } from '@inertiajs/react';
 import Layout from '../Layout';
-import RecursiveTree from '../SpeciesDetail/RecursiveTree';
+import RecursiveTree from './RecursiveTree';
 
 const DataBox = ({ titulo, info, link }) => {
   return (
@@ -23,7 +23,7 @@ const DataBox = ({ titulo, info, link }) => {
   );
 };
 
-const Show = ({ especie, jerarquia}) => {
+const Show = ({ especie, jerarquia, url}) => {
   return (
     <Box p={3}>
       <Typography variant="h4" gutterBottom>
@@ -69,7 +69,7 @@ const Show = ({ especie, jerarquia}) => {
           </Box>
           <Divider />
 
-          <Box className="p-3 pl-16 flex flex-col justify-start md:flex-row">
+          <Box className="p-3 md:pr-16 flex flex-col justify-start md:flex-row">
             <DataBox
               titulo="Descripcion:"
               info={especie.descripcion}
@@ -94,16 +94,14 @@ const Show = ({ especie, jerarquia}) => {
 
       {jerarquia != undefined && (
         <Card variant='outlined' className='mt-10'>
-          <Box className="flex justify-around ml-10" id={"myid"}>
+          <Box className="flex justify-around flex-col md:flex-row" id={"myid"}>
             <Box>
-            <Typography variant='h5' sx={
-            {
-              margin:'20px'  
-            }
-          }>Árbol taxonómico</Typography>
+              <Typography variant='h5' sx={
+              {margin:'20px'}}>Árbol taxonómico</Typography>
               <RecursiveTree begin={0} hierarchy={jerarquia}/>
             </Box>
-            <Box sx={{height:"50vh", width:"45vw", border:"2px solid black", margin:'25px'}}>
+            <Box sx={{width:{xs:'80vw',md:"500px"}, margin:'25px', display:'flex'} }>
+              <img src={url} className="place-self-center object-scale-down"/>
             </Box>
           </Box>
         </Card>

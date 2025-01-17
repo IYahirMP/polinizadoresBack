@@ -2,7 +2,8 @@ export const galleryStyles = {
     presentation:{
       backgroundColor:'#13CE66',
       height:{
-        xs: '350px'
+        xs: '100px',
+        sm: '200px'
       },
       display:'flex',
       justifyContent: 'center',
@@ -18,8 +19,17 @@ export const galleryStyles = {
       fontWeight:'bold',
       textAlign:'center',
       fontSize:{
-        xs:'2.5rem',
-        md:'4rem'
+        xs:'1rem',
+        sm:'2rem',
+        lg:'3rem'
+      }
+    },
+    titleText:{
+      fontWeight:'bold',
+      textAlign:'center',
+      fontSize:{
+        xs:'1rem',
+        sm:'2rem',
       }
     },
     cardBox:{

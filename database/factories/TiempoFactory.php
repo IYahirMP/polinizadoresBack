@@ -21,7 +21,8 @@ class TiempoFactory extends Factory
             'mes' => $this->faker->numberBetween(1, 12),
             'semana' => $this->faker->numberBetween(1, 52),
             'dia' => $this->faker->numberBetween(1, 31),
-            'timestamp' => $this->faker->dateTime,
+            'hora' => $this->faker->numberBetween(1,23),
+            'minuto' => $this->faker->numberBetween(1,59),
         ];
     }
 }

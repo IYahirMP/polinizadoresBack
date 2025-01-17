@@ -2,52 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tiempo;
 use Illuminate\Http\Request;
+use App\Models\Tiempo;
+use Carbon\Carbon;
 
-class TiempoController
+class TiempoController extends Controller
 {
-    public function index()
-    {
-        return response()->json(Tiempo::all(), 200);
-    }
-
+    /**
+     * Almacenar un nuevo elemento en la tabla 'tiempo' usando fecha y hora.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
+        // Validar que la fecha y hora sean requeridas y estén en el formato correcto
         $validated = $request->validate([
-            'año' => 'required|integer',
-            'mes' => 'required|integer|between:1,12',
-            'semana' => 'required|integer|between:1,52',
-            'dia' => 'required|integer|between:1,31',
-            'timestamp' => 'required|date',
+            'fecha_hora' => 'required|date_format:m/d/Y H:i', // Validar formato MM/DD/YYYY HH:mm
         ]);
 
-        $tiempo = Tiempo::create($validated);
-        return response()->json($tiempo, 201);
-    }
+        // Convertir la fecha y hora a un objeto Carbon para extraer valores
+        $fechaHora = Carbon::createFromFormat('m/d/Y H:i', $validated['fecha_hora']);
 
-    public function show(Tiempo $tiempo)
-    {
-        return response()->json($tiempo, 200);
-    }
-
-    public function update(Request $request, Tiempo $tiempo)
-    {
-        $validated = $request->validate([
-            'año' => 'integer',
-            'mes' => 'integer|between:1,12',
-            'semana' => 'integer|between:1,52',
-            'dia' => 'integer|between:1,31',
-            'timestamp' => 'date',
+        // Crear un nuevo registro en la tabla 'tiempo'
+        $tiempo = Tiempo::create([
+            'año' => $fechaHora->year,
+            'mes' => $fechaHora->month,
+            'semana' => $fechaHora->weekOfYear,
+            'dia' => $fechaHora->day,
+            'hora' => $fechaHora->hour,
+            'minuto' => $fechaHora->minute,
         ]);
 
-        $tiempo->update($validated);
-        return response()->json($tiempo, 200);
-    }
-
-    public function destroy(Tiempo $tiempo)
-    {
-        $tiempo->delete();
-        return response()->json(null, 204);
+        return response()->json([
+            'message' => 'Elemento creado exitosamente.',
+            'data' => $tiempo,
+        ], 201);
     }
 }

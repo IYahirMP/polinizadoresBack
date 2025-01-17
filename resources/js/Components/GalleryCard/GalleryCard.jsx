@@ -20,12 +20,14 @@ export default function GalleryCard({ id, title, description, img }) {
                     sx={{...styles.img}}
                     image={img}
                 />
-                <Box sx={{ ...styles.nameWrap }}>
-                    <Typography variant='h5' sx={{...styles.name}}>{title}</Typography>
-                </Box>
 
-                <Box sx={{ ...styles.descriptionWrap }}>
-                    <Typography variant='body2' sx={{...styles.description}}>{String(description)}</Typography>
+                <Box width={{xs: '40vw', md:'100%'}}>
+                    <Box sx={{ ...styles.nameWrap }}>
+                        <Typography variant='h5' sx={{...styles.name}}>{title}</Typography>
+                    </Box>
+                    <Box sx={{ ...styles.descriptionWrap }}>
+                        <Typography variant='body2' sx={{...styles.description}}>{String(description)}</Typography>
+                    </Box>
                 </Box>
             </CardContent>
             <CardActions>
