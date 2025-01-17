@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BloqueTaxonomico;
 use App\Models\Especie;
+use App\Models\Imagen;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Log\Logger;
@@ -128,11 +129,13 @@ class EspecieController
     {
         $especie = Especie::findOrFail($especie);
         $jerarquia = $especie->getOrderedHierarchy();
+        $imagen = Imagen::where('id_especie','=',$especie->id_especie)->firstOrFail();
         $jerarquia[count($jerarquia)] = ["Especie", $especie->nombre,$especie->id_especie];
 
         return Inertia::render('Especie/Show',[
             "especie" => $especie,
             "jerarquia" => $jerarquia,
+            "url" => $imagen->url,
         ]);
     }
 

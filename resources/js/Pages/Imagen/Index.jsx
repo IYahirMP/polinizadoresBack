@@ -1,12 +1,13 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { Link, router} from '@inertiajs/react';
-import { DataGrid, useGridApiRef } from '@mui/x-data-grid';
+import { useGridApiRef } from '@mui/x-data-grid';
 import { Box, Button, Typography} from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 import Layout from '../Layout';
 import InfoIcon from '@mui/icons-material/Info';
 import { FLASH_OPTIONS } from './FlashOptions';
+import Table from '@/Components/Table';
 
 const Index = ({imagenes, flash}) => {
     const handleDelete = (id) => {
@@ -15,22 +16,20 @@ const Index = ({imagenes, flash}) => {
         }
     };
 
-    console.log(imagenes);
-
     const columns = [
         { field: 'id_imagen', headerName: 'ID', maxWidth:"100"},
         { field: 'nombre', headerName: 'Especie asociada', flex:1},
-        {
-            field: 'thumb',
-            width:"400",
-            align:"center",
-            headerName: 'Previsualizacion',
-            renderCell: (params) => (
-                <img
-                    src={params.row.url}
-                />
-            ),
-        },
+        // {
+        //     field: 'thumb',
+        //     width:"400",
+        //     align:"center",
+        //     headerName: 'Previsualizacion',
+        //     renderCell: (params) => (
+        //         <img
+        //             src={params.row.url}
+        //         />
+        //     ),
+        // },
         // { field: 'previsualizacion', headerName: 'Nombre común', flex:1},
         // {
         //     field: 'edit',
@@ -50,7 +49,7 @@ const Index = ({imagenes, flash}) => {
             field: 'delete',
             maxWidth:"200",
             align:"center",
-            headerName: 'Delete',
+            headerName: 'Eliminar',
             renderCell: (params) => (
                 <Button
                     variant="contained"
@@ -76,21 +75,10 @@ const Index = ({imagenes, flash}) => {
         }
     ];
 
-    const apiRef = useGridApiRef;
-
     const rows = imagenes.map((imagen) => ({
         id: imagen.id_imagen,
         ...imagen,
     }));
-
-    console.log(rows);
-
-    useEffect(() => {
-        // Trigger resize whenever rows or columns change
-        if (apiRef.current) {
-          apiRef.current.autoSizeColumns();
-        }
-      }, [rows, columns]);
 
     // Los mensajes Flash sirven cuando se redirecciona desde una acción diferente.
     // Ejemplo: Eliminar un registro. Al finalizar, se envía un mensaje flash diciendo si fue exitoso o no.
@@ -131,20 +119,7 @@ const Index = ({imagenes, flash}) => {
                     Añadir nueva imagen
                 </Button>
             </Box>
-            <div style={{height:'80vh'}}>
-                <DataGrid
-                        columns={columns}
-                        disableSelectionOnClick
-                        rows={rows}
-                        disableColumnResize={true}
-                        pageSizeOptions={[10, 20, 30]}
-                        initialState={{
-                            pagination:{
-                                paginationModel:{pageSize:10, page:0}
-                            }
-                        }}
-                    />
-            </div>
+            <Table columns={columns} rows={rows}/>
         </Box>
     );
 }

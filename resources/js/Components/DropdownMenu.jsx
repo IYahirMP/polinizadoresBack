@@ -35,7 +35,12 @@ const DropdownMenu = ({ pages, etiqueta }) => {
                 backgroundColor:'#fff',
                 border: '1px solid black',
                 color:"black",
-                marginX:"10px"
+                margin:"10px",
+                height:{
+                  xs:'55px',
+                  md: '30px'
+                },
+                overflow:'hidden'
         }}
       >
         {etiqueta}

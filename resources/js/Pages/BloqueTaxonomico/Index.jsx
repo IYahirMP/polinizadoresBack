@@ -24,7 +24,7 @@ const Index = ({bloques, flash}) => {
             field: 'edit',
             maxWidth:"100",
             align:"center",
-            headerName: 'Edit',
+            headerName: 'Editar',
             renderCell: (params) => (
                 <Button
                 variant="contained"
@@ -38,7 +38,7 @@ const Index = ({bloques, flash}) => {
             field: 'delete',
             maxWidth:"200",
             align:"center",
-            headerName: 'Delete',
+            headerName: 'Eliminar',
             renderCell: (params) => (
                 <Button
                     variant="contained"
