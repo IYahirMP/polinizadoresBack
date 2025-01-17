@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('observacion', function (Blueprint $table) {
             $table->id('id_observacion');
             $table->foreignId('id_especie')->constrained('especie', 'id_especie');
-            $table->dateTime('inicio_deteccion');
-            $table->dateTime('fin_deteccion')->nullable();
-            $table->integer('duracion_deteccion')->nullable();
+            $table->foreignId('inicio_deteccion')->constrained('tiempo', 'id_tiempo');
+            $table->foreignId('fin_deteccion')->constrained('tiempo', 'id_tiempo');
+            $table->decimal('duracion_deteccion', 8, 2);
             $table->foreignId('id_lugar')->constrained('lugar', 'id_lugar');
             $table->timestamps();
         });

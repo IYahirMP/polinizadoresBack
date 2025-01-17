@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // Poblar la tabla 'Tiempo'
-        $tiempos = Tiempo::factory()->count(100)->create();
+        //$tiempos = Tiempo::factory()->count(100)->create();
 
         // Poblar la tabla 'Lugar'
         $lugares = Lugar::factory()->count(50)->create();

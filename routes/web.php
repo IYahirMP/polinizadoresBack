@@ -60,7 +60,6 @@ use App\Http\Controllers\EspecieController;
 use App\Http\Controllers\ImagenController;
 use App\Http\Controllers\LugarController;
 use App\Http\Controllers\ObservacionesController;
-use App\Http\Controllers\TiempoController;
 
 
 Route::resource('bloquetaxonomico', BloqueTaxonomicoController::class)->middleware('auth');
@@ -74,4 +73,3 @@ Route::get('/especie/search/{term}', [EspecieController::class, 'search'])->name
 Route::resource('imagen', controller: ImagenController::class)->middleware('auth');
 Route::resource('lugar', controller: LugarController::class)->middleware('auth');
 Route::resource('observaciones', controller: ObservacionesController::class)->middleware('auth');
-Route::resource('tiempo', controller: TiempoController::class)->middleware('auth');

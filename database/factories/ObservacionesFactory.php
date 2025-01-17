@@ -18,8 +18,8 @@ class ObservacionesFactory extends Factory
     {
         return [
             'id_especie' => \App\Models\Especie::factory(),
-            'inicio_deteccion' => $this->faker->dateTime,
-            'fin_deteccion' => $this->faker->dateTime,
+            'inicio_deteccion' => \App\Models\Tiempo::factory(),
+            'fin_deteccion' => \App\Models\Tiempo::factory(),
             'duracion_deteccion' => $this->faker->numberBetween(1, 300),
             'id_lugar' => \App\Models\Lugar::factory(),
         ];
