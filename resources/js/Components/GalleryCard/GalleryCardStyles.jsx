@@ -4,7 +4,7 @@ export const galleryCardStyles = {
         padding: '0',
         width: {
             xs:'90vw',
-            md:'350px'
+            md:'330px'
         }
     },
     'cardContent': {
@@ -12,6 +12,10 @@ export const galleryCardStyles = {
         alignItems:'center',
         flexWrap: 'wrap',
         justifyContent: {xs:'stretch', md:'center'},
+        flexDirection:{
+            xs:'row',
+            md:'column'
+        },
         padding: '0'
     },
     'nameWrap': {
@@ -28,7 +32,8 @@ export const galleryCardStyles = {
         height: '10vh',
         textAlign: 'left',
         width: {
-            xs:'50vw'
+            xs:'50vw',
+            md:'90%'
         },
         margin: '5%',
         overflow:'hidden',

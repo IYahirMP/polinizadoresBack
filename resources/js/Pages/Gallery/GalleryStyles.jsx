@@ -20,7 +20,8 @@ export const galleryStyles = {
       textAlign:'center',
       fontSize:{
         xs:'1rem',
-        sm:'2rem'
+        sm:'2rem',
+        lg:'3rem'
       }
     },
     titleText:{
@@ -28,7 +29,7 @@ export const galleryStyles = {
       textAlign:'center',
       fontSize:{
         xs:'1rem',
-        sm:'2rem'
+        sm:'2rem',
       }
     },
     cardBox:{
