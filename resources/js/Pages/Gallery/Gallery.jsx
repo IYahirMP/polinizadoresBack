@@ -4,6 +4,7 @@ import GalleryCard from "../../Components/GalleryCard/GalleryCard";
 import { useEffect, useState } from "react";
 import {Pagination} from "@mui/material";
 import Layout from "../Layout";
+import './cssReset.css';
 
 const Gallery = ({requestOk, especies, auth}) => {
     const theme = useTheme();
@@ -32,18 +33,18 @@ const Gallery = ({requestOk, especies, auth}) => {
         window.scrollTo({ top: 400, behavior: 'smooth' });
     }
 
-    console.log(especies);
+    // console.log(especies);
 
     const titleGarden = 'Jardin de Polinizadores del Instituto Tecnológico de Ciudad Altamirano';
     return (
     <Container maxWidth='xlg' disableGutters>
         <Box sx={{...theme.gallery.presentation}}>
-            <Typography variant='h2' sx={{...theme.gallery.presentationText, md:{fontSize:'10px'}}}>{titleGarden}</Typography>
+            <Typography variant='h2' sx={{...theme.gallery.presentationText}}>{titleGarden}</Typography>
         </Box>
                 {especies != undefined && especiesActuales.length != 0 ? (
                 <>
                     <Box sx={{padding:'5vh', textAlign:'center'}}>
-                        <Typography variant='h3'>Especies encontradas</Typography>
+                        <Typography variant='h3' sx={{...theme.gallery.titleText}}>Especies encontradas</Typography>
                     </Box>
                     <Box {...theme.gallery.cardBox}>
                         {especiesActuales.map(

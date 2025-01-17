@@ -1,28 +1,35 @@
 export const galleryCardStyles = {
     'card': {
-        margin: '20px',
+        margin: {xs:'5px' , md:'20px'},
         padding: '0',
-        width: '350px'
+        width: {
+            xs:'90vw',
+            md:'350px'
+        }
     },
     'cardContent': {
         display: 'flex',
+        alignItems:'center',
         flexWrap: 'wrap',
-        justifyContent: 'center',
+        justifyContent: {xs:'stretch', md:'center'},
         padding: '0'
     },
     'nameWrap': {
         textAlign:'left',
         margin: '5%',
         width: '100%',
-        fontWeight: 'bold' 
+        fontWeight: 'bold',
     },
     'name':{
-        fontWeight: 'bold' 
+        fontWeight: 'bold',
+        fontSize:{xs:'1rem'},
     },
     'descriptionWrap': {
         height: '10vh',
         textAlign: 'left',
-        width: '100%',
+        width: {
+            xs:'50vw'
+        },
         margin: '5%',
         overflow:'hidden',
     },
@@ -30,8 +37,9 @@ export const galleryCardStyles = {
         overflowWrap: 'anywhere'
     },
     'img':{
-        height: '300px',
-        width: '100%',
-        objectFit: 'fill' 
+        height: {xs:'30vw', md:'300px'},
+        width: {xs:'30vw', md:'100%'},
+        objectFit: 'fill',
+        alignSelf:'start'
     }
 }
