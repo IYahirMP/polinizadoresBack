@@ -95,7 +95,7 @@ class DatabaseSeeder extends Seeder
 
         // Poblar la tabla 'Observaciones'
         foreach ($especies as $especie) {
-            Observaciones::factory()->create([
+            Observaciones::factory()->count(10)->create([
                 'id_especie' => $especie->id_especie,
                 'id_lugar' => $lugares->random()->id_lugar,
             ]);

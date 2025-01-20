@@ -19,35 +19,9 @@ const Index = ({imagenes, flash}) => {
     const columns = [
         { field: 'id_imagen', headerName: 'ID', maxWidth:"100"},
         { field: 'nombre', headerName: 'Especie asociada', flex:1},
-        // {
-        //     field: 'thumb',
-        //     width:"400",
-        //     align:"center",
-        //     headerName: 'Previsualizacion',
-        //     renderCell: (params) => (
-        //         <img
-        //             src={params.row.url}
-        //         />
-        //     ),
-        // },
-        // { field: 'previsualizacion', headerName: 'Nombre común', flex:1},
-        // {
-        //     field: 'edit',
-        //     maxWidth:"100",
-        //     align:"center",
-        //     headerName: 'Editar',
-        //     renderCell: (params) => (
-        //         <Button
-        //         variant="contained"
-        //         color="primary"
-        //         component={Link}
-        //         href={route('imagen.edit', params.row.id_imagen)}
-        //         ><Edit /></Button>                    
-        //     ),
-        // },
         {
             field: 'delete',
-            maxWidth:"200",
+            width:130,
             align:"center",
             headerName: 'Eliminar',
             renderCell: (params) => (
@@ -60,7 +34,7 @@ const Index = ({imagenes, flash}) => {
         },
         {
             field: 'detalles',
-            maxWidth:200,
+            width:130,
             align:"center",
             headerName:"Detalles",
             renderCell: (params) => (
@@ -92,7 +66,7 @@ const Index = ({imagenes, flash}) => {
     }
 
     return (
-        <Box className={"p-10"}>
+        <Box className={"p-10"} sx={{display:'flex', flexDirection:'column'}}>
             <Box className="">
                 <Typography variant="h4" gutterBottom>
                     Imágenes
@@ -119,7 +93,9 @@ const Index = ({imagenes, flash}) => {
                     Añadir nueva imagen
                 </Button>
             </Box>
-            <Table columns={columns} rows={rows}/>
+            <Box sx={{alignSelf:'center', overflow:'scroll'}}>
+                <Table columns={columns} rows={rows} width={600}/>
+            </Box>
         </Box>
     );
 }

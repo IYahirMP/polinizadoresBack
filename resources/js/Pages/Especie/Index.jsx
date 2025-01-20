@@ -23,7 +23,7 @@ const Index = ({especies, flash}) => {
         { field: 'nombre_comun', headerName: 'Nombre común', flex:1},
         {
             field: 'edit',
-            maxWidth:"100",
+            width:130,
             align:"center",
             headerName: 'Editar',
             renderCell: (params) => (
@@ -37,7 +37,7 @@ const Index = ({especies, flash}) => {
         },
         {
             field: 'delete',
-            maxWidth:"200",
+            width:130,
             align:"center",
             headerName: 'Eliminar',
             renderCell: (params) => (
@@ -50,7 +50,7 @@ const Index = ({especies, flash}) => {
         },
         {
             field: 'detalles',
-            maxWidth:200,
+            width:130,
             align:"center",
             headerName:"Detalles",
             renderCell: (params) => (
@@ -65,19 +65,10 @@ const Index = ({especies, flash}) => {
         }
     ];
 
-    const apiRef = useGridApiRef;
-
     const rows = especies.map((especie) => ({
         id: especie.id_especie,
         ...especie,
     }));
-
-    useEffect(() => {
-        // Trigger resize whenever rows or columns change
-        if (apiRef.current) {
-          apiRef.current.autoSizeColumns();
-        }
-      }, [rows, columns]);
 
     // Los mensajes Flash sirven cuando se redirecciona desde una acción diferente.
     // Ejemplo: Eliminar un registro. Al finalizar, se envía un mensaje flash diciendo si fue exitoso o no.
@@ -87,11 +78,10 @@ const Index = ({especies, flash}) => {
         let estado = flash.message.status;
 
         currentFlash = FLASH_OPTIONS[accion][estado];
-        // console.log(currentFlash);
     }
 
     return (
-        <Box className={"p-10"}>
+        <Box className={"p-10"} sx={{display:'flex', flexDirection:'column'}}>
             <Box className="">
                 <Typography variant="h4" gutterBottom>
                     Especies
@@ -118,7 +108,9 @@ const Index = ({especies, flash}) => {
                     Añadir nueva especie
                 </Button>
             </Box>
-            <Table columns={columns} rows={rows}/>
+            <Box sx={{alignSelf:'center', overflow:'scroll'}}>
+                <Table columns={columns} rows={rows} width={1000}/>
+            </Box>
         </Box>
     );
 }

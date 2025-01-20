@@ -1,6 +1,7 @@
 import { DataGrid, useGridApiRef } from "@mui/x-data-grid";
+import { useEffect } from "react";
 
-export default Table = ({columns, rows}) => {
+const Table = ({columns, rows, width}) => {
     const apiRef = useGridApiRef;
 
     useEffect(() => {
@@ -11,9 +12,10 @@ export default Table = ({columns, rows}) => {
       }, [rows, columns]);
 
 
-    return <div style={{height:'80vh', width:'80vw', overflow:'scroll'}}>
+    return (<div style={{height:'80vh', width:'90vw', overflow:'scroll'}}>
                 <DataGrid
                         columns={columns}
+                        
                         disableSelectionOnClick
                         rows={rows}
                         disableColumnResize={true}
@@ -25,8 +27,10 @@ export default Table = ({columns, rows}) => {
                         }}
                         sx={{
                             overflowX:'scroll',
-                            width:'1200px'
+                            width: {width}
                         }}
                     />
-            </div>
+            </div>)
 }
+
+export default Table;

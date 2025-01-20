@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('lugar', function (Blueprint $table) {
             $table->id('id_lugar');
             $table->string('enlace_maps')->nullable();
-            $table->decimal('altitud', 10, 6);
+            $table->decimal('latitud', 10, 6);
             $table->decimal('longitud', 10, 6);
             $table->string('nombre');
             $table->string('estado');

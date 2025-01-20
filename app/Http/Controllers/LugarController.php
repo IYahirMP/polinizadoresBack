@@ -4,19 +4,45 @@ namespace App\Http\Controllers;
 
 use App\Models\Lugar;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
-class LugarController
+class LugarController extends Controller
 {
+    /**
+     * Listar todos los registros de la tabla 'lugar'.
+     *
+     * @return \Inertia\Response
+     */
     public function index()
     {
-        return response()->json(Lugar::all(), 200);
+        $lugares = Lugar::all();
+
+        return Inertia::render('Lugar/Index', [
+            'lugares' => $lugares,
+        ]);
     }
 
+    /**
+     * Mostrar el formulario para crear un nuevo lugar.
+     *
+     * @return \Inertia\Response
+     */
+    public function create()
+    {
+        return Inertia::render('Lugar/Create');
+    }
+
+    /**
+     * Almacenar un nuevo lugar en la base de datos.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'enlace_maps' => 'required|url',
-            'altitud' => 'required|numeric',
+            'enlace_maps' => 'nullable|url',
+            'latitud' => 'required|numeric',
             'longitud' => 'required|numeric',
             'nombre' => 'required|string|max:255',
             'estado' => 'required|string|max:255',
@@ -24,34 +50,78 @@ class LugarController
             'referencias' => 'nullable|string',
         ]);
 
-        $lugar = Lugar::create($validated);
-        return response()->json($lugar, 201);
+        Lugar::create($validated);
+
+        return redirect()->route('lugar.index')->with('message', 'Lugar creado exitosamente.');
     }
 
-    public function show(Lugar $lugar)
+    /**
+     * Mostrar un lugar específico.
+     *
+     * @param int $id
+     * @return \Inertia\Response
+     */
+    public function show($id)
     {
-        return response()->json($lugar, 200);
+        $lugar = Lugar::findOrFail($id);
+
+        return Inertia::render('Lugar/Show', [
+            'lugar' => $lugar,
+        ]);
     }
 
-    public function update(Request $request, Lugar $lugar)
+    /**
+     * Mostrar el formulario para editar un lugar específico.
+     *
+     * @param int $id
+     * @return \Inertia\Response
+     */
+    public function edit($id)
     {
+        $lugar = Lugar::findOrFail($id);
+
+        return Inertia::render('Lugar/Edit', [
+            'lugar' => $lugar,
+        ]);
+    }
+
+    /**
+     * Actualizar un lugar en la base de datos.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request, $id)
+    {
+        $lugar = Lugar::findOrFail($id);
+
         $validated = $request->validate([
-            'enlace_maps' => 'url',
-            'altitud' => 'numeric',
-            'longitud' => 'numeric',
-            'nombre' => 'string|max:255',
-            'estado' => 'string|max:255',
-            'municipio' => 'string|max:255',
+            'enlace_maps' => 'nullable|url',
+            'latitud' => 'required|numeric|min:-180|max:180',
+            'longitud' => 'required|numeric|min:-90|max:90',
+            'nombre' => 'required|string|max:255',
+            'estado' => 'required|string|max:255',
+            'municipio' => 'required|string|max:255',
             'referencias' => 'nullable|string',
         ]);
 
         $lugar->update($validated);
-        return response()->json($lugar, 200);
+
+        return redirect()->route('lugar.index')->with('message', 'Lugar actualizado exitosamente.');
     }
 
-    public function destroy(Lugar $lugar)
+    /**
+     * Eliminar un lugar de la base de datos.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy($id)
     {
+        $lugar = Lugar::findOrFail($id);
         $lugar->delete();
-        return response()->json(null, 204);
+
+        return redirect()->route('lugar.index')->with('message', 'Lugar eliminado exitosamente.');
     }
 }

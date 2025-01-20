@@ -18,6 +18,8 @@ import ADMIN_PAGES from './AdminPages';
 
 function Header() {
   const {auth} = usePage().props;
+  const APP_NAME = 'BeeSmart Analytics';
+  const toolbarDimPx = ADMIN_PAGES.length * 150;
 
   // console.log(auth);
 
@@ -101,8 +103,7 @@ function Header() {
   }
 
   const logoXs = {
-    variant: "h5",
-    noWrap: true,
+    variant: "h7",
     component: "a",
     href: "#app-bar-with-responsive-menu",
     sx: {
@@ -111,9 +112,10 @@ function Header() {
       flexGrow: 1,
       fontFamily: 'monospace',
       fontWeight: 700,
-      letterSpacing: '.3rem',
+      letterSpacing: '.1rem',
       color: 'black',
       textDecoration: 'none',
+      overflowWrap:'anywhere'
     },
   }
 
@@ -123,7 +125,7 @@ function Header() {
       <Container maxWidth="xxl">
         <Toolbar disableGutters> 
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, color: 'black' }} />
-          <Typography {...logoPropsMd}> BeeSmart Analytics </Typography>
+          <Typography {...logoPropsMd}>{APP_NAME}</Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton {...iconPropsXs}>
               <MenuIcon />
@@ -137,7 +139,7 @@ function Header() {
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1, color: 'black' }} />
-          <Typography {...logoXs}>LOGO</Typography>
+          <Typography {...logoXs}>{APP_NAME}</Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', color: 'black' }, flexDirection:{md:'row-reverse'}, paddingRight:{md:'3vw'}  }}>
             {pages.map((page) => (
               <Link href={page.link} method={page.method} key={page.pagina + "1"}>
@@ -154,8 +156,8 @@ function Header() {
     </AppBar>
 
       {(auth.user) && (
-          <Container maxWidth="xxl">
-            <Toolbar disableGutters>
+          <Container sx={{ overflow:'overlay'}}>
+            <Toolbar sx={{width:toolbarDimPx}}>
               {ADMIN_PAGES.map((tabla) => <DropdownMenu key={tabla.etiqueta} className="mx-10" pages={tabla.paginas} etiqueta={tabla.etiqueta}/>)}
             </Toolbar>
           </Container>

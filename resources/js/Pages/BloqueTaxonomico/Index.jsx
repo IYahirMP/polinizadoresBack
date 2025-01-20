@@ -16,6 +16,7 @@ const Index = ({bloques, flash}) => {
             console.log("deleted");
         }
     };
+    
 
     const columns = [
         { field: 'id_bloque', headerName: 'ID', maxWidth:"100"},
@@ -23,7 +24,7 @@ const Index = ({bloques, flash}) => {
         { field: 'nombre', headerName: 'Nombre', flex:1},
         {
             field: 'edit',
-            maxWidth:"100",
+            width:130,
             align:"center",
             headerName: 'Editar',
             renderCell: (params) => (
@@ -37,7 +38,7 @@ const Index = ({bloques, flash}) => {
         },
         {
             field: 'delete',
-            maxWidth:"200",
+            width:130,
             align:"center",
             headerName: 'Eliminar',
             renderCell: (params) => (
@@ -50,7 +51,7 @@ const Index = ({bloques, flash}) => {
         },
         {
             field: 'detalles',
-            maxWidth:200,
+            width:130,
             align:"center",
             headerName:"Detalles",
             renderCell: (params) => (
@@ -65,19 +66,10 @@ const Index = ({bloques, flash}) => {
         }
     ];
 
-    const apiRef = useGridApiRef;
-
     const rows = bloques.map((bloque) => ({
         id: bloque.id_bloque,
         ...bloque,
     }));
-
-    useEffect(() => {
-        // Trigger resize whenever rows or columns change
-        if (apiRef.current) {
-          apiRef.current.autoSizeColumns();
-        }
-      }, [rows, columns]);
 
     // Los mensajes Flash sirven cuando se redirecciona desde una acción diferente.
     // Ejemplo: Eliminar un registro. Al finalizar, se envía un mensaje flash diciendo si fue exitoso o no.
@@ -91,7 +83,7 @@ const Index = ({bloques, flash}) => {
     }
 
     return (
-        <Box className={"p-10"}>
+        <Box className={"p-10"} sx={{display:'flex', flexDirection:'column'}}>
             <Typography variant="h4" gutterBottom>
                 Bloques taxonomicos / Taxones
             </Typography>
@@ -115,7 +107,9 @@ const Index = ({bloques, flash}) => {
                     Añadir nuevo taxón
                 </Button>
             </Box>
-            <Table columns={columns} row={rows}/>
+            <Box sx={{alignSelf:'center', overflow:'scroll'}}>
+                <Table columns={columns} rows={rows} width={750}/>
+            </Box>
         </Box>
     );
 }

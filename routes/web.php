@@ -63,13 +63,8 @@ use App\Http\Controllers\ObservacionesController;
 
 
 Route::resource('bloquetaxonomico', BloqueTaxonomicoController::class)->middleware('auth');
-Route::get('/bloquetaxonomico/search/{term}',[BloqueTaxonomicoController::class, 'search'])->name("bloquetaxonomico.search")->middleware('auth');
-Route::get('/bloquetaxonomico/ancestors/{id}', [BloqueTaxonomicoController::class, 'ancestors'])->name('bloquetaxonomico.ancestors')->middleware('auth');
-
 Route::resource('especiebloque', controller: EspecieBloqueController::class)->middleware('auth');
 Route::resource('especie', controller: EspecieController::class)->middleware('auth');
-Route::get('/especie/search/{term}', [EspecieController::class, 'search'])->name('especie.search')->middleware('auth');
-
 Route::resource('imagen', controller: ImagenController::class)->middleware('auth');
 Route::resource('lugar', controller: LugarController::class)->middleware('auth');
-Route::resource('observaciones', controller: ObservacionesController::class)->middleware('auth');
+Route::resource('observaciones', controller: ObservacionesController::class);

@@ -18,7 +18,7 @@ class LugarFactory extends Factory
     {
         return [
             'enlace_maps' => $this->faker->url,
-            'altitud' => $this->faker->randomFloat(6, 0, 3000), // Valores de altitud entre 0 y 3000 m
+            'latitud' => $this->faker->latitude,
             'longitud' => $this->faker->longitude,
             'nombre' => $this->faker->city,
             'estado' => $this->faker->state,
