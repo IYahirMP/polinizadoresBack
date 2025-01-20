@@ -12,25 +12,23 @@ const Table = ({columns, rows, width}) => {
       }, [rows, columns]);
 
 
-    return (<div style={{height:'80vh', width:'90vw', overflow:'scroll'}}>
-                <DataGrid
-                        columns={columns}
-                        
-                        disableSelectionOnClick
-                        rows={rows}
-                        disableColumnResize={true}
-                        pageSizeOptions={[10, 20, 30]}
-                        initialState={{
-                            pagination:{
-                                paginationModel:{pageSize:10, page:0}
-                            }
-                        }}
-                        sx={{
-                            overflowX:'scroll',
-                            width: {width}
-                        }}
-                    />
-            </div>)
+    return (<DataGrid
+                columns={columns}
+                
+                disableSelectionOnClick
+                rows={rows}
+                disableColumnResize={true}
+                pageSizeOptions={[10, 20, 30]}
+                initialState={{
+                    pagination:{
+                        paginationModel:{pageSize:10, page:0}
+                    }
+                }}
+                sx={{
+                    overflow:'scroll',
+                    width: {width}
+                }}
+                    />)
 }
 
 export default Table;

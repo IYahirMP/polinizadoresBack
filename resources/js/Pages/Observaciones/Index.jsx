@@ -78,7 +78,7 @@ const Index = ({flash}) => {
                     Añadir nueva observación
                 </Button>
             </Box>
-            <Box sx={{alignSelf:'center', overflow:'scroll'}}>
+            <Box sx={{alignSelf:'center', overflow:{xs:'scroll', md:'none'}, maxWidth:'90vw'}}>
                 <TableOnDemand columns={columns} api={API_ENDPOINTS.OBSERVACIONES}/>
             </Box>
         </Box>

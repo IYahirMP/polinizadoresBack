@@ -108,7 +108,7 @@ const Index = ({especies, flash}) => {
                     Añadir nueva especie
                 </Button>
             </Box>
-            <Box sx={{alignSelf:'center', overflow:'scroll'}}>
+            <Box sx={{alignSelf:'center', overflow:{xs:'scroll', md:'none'}, maxWidth:'90vw'}}>
                 <Table columns={columns} rows={rows} width={1000}/>
             </Box>
         </Box>

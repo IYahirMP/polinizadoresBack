@@ -93,7 +93,7 @@ const Index = ({imagenes, flash}) => {
                     Añadir nueva imagen
                 </Button>
             </Box>
-            <Box sx={{alignSelf:'center', overflow:'scroll'}}>
+            <Box sx={{alignSelf:'center', overflow:{xs:'scroll', md:'none'}, maxWidth:'90vw'}}>
                 <Table columns={columns} rows={rows} width={600}/>
             </Box>
         </Box>

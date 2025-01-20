@@ -107,7 +107,7 @@ const Index = ({bloques, flash}) => {
                     Añadir nuevo taxón
                 </Button>
             </Box>
-            <Box sx={{alignSelf:'center', overflow:'scroll'}}>
+            <Box sx={{alignSelf:'center', overflow:{xs:'scroll', md:'none'}, maxWidth:'90vw'}}>
                 <Table columns={columns} rows={rows} width={750}/>
             </Box>
         </Box>

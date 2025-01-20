@@ -49,7 +49,6 @@ const TableOnDemand = ({columns, api}) => {
   }, [paginationModel]);
 
   return (
-    <div style={{ height: '80vh', width: '90vw'}}>
       <DataGrid
         apiRef={apiRef}
         rows={rows}
@@ -69,7 +68,6 @@ const TableOnDemand = ({columns, api}) => {
           }
         }}
       />
-    </div>
   );
 };
 
